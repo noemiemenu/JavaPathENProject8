@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.junit.Ignore;
@@ -23,6 +24,7 @@ public class TestTourGuideService {
 
 	@Test
 	public void getUserLocation() {
+		Locale.setDefault(new Locale("en", "US"));
 		GpsUtil gpsUtil = new GpsUtil();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 		InternalTestHelper.setInternalUserNumber(0);
@@ -31,11 +33,12 @@ public class TestTourGuideService {
 		User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		VisitedLocation visitedLocation = tourGuideService.trackUserLocation(user);
 		tourGuideService.tracker.stopTracking();
-		assertTrue(visitedLocation.userId.equals(user.getUserId()));
+		assertEquals(visitedLocation.userId, user.getUserId());
 	}
 	
 	@Test
 	public void addUser() {
+		Locale.setDefault(new Locale("en", "US"));
 		GpsUtil gpsUtil = new GpsUtil();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 		InternalTestHelper.setInternalUserNumber(0);
@@ -58,6 +61,7 @@ public class TestTourGuideService {
 	
 	@Test
 	public void getAllUsers() {
+		Locale.setDefault(new Locale("en", "US"));
 		GpsUtil gpsUtil = new GpsUtil();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 		InternalTestHelper.setInternalUserNumber(0);
@@ -79,6 +83,7 @@ public class TestTourGuideService {
 	
 	@Test
 	public void trackUser() {
+		Locale.setDefault(new Locale("en", "US"));
 		GpsUtil gpsUtil = new GpsUtil();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 		InternalTestHelper.setInternalUserNumber(0);
@@ -95,6 +100,7 @@ public class TestTourGuideService {
 	@Ignore // Not yet implemented
 	@Test
 	public void getNearbyAttractions() {
+		Locale.setDefault(new Locale("en", "US"));
 		GpsUtil gpsUtil = new GpsUtil();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 		InternalTestHelper.setInternalUserNumber(0);
@@ -111,6 +117,7 @@ public class TestTourGuideService {
 	}
 	
 	public void getTripDeals() {
+		Locale.setDefault(new Locale("en", "US"));
 		GpsUtil gpsUtil = new GpsUtil();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 		InternalTestHelper.setInternalUserNumber(0);
