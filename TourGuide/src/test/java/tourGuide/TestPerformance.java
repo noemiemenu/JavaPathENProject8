@@ -44,7 +44,7 @@ public class TestPerformance {
 	 *          assertTrue(TimeUnit.MINUTES.toSeconds(20) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 	 */
 
-	@Ignore
+
 	@Test
 	public void highVolumeTrackLocation() {
 		Locale.setDefault(new Locale("en", "US"));
@@ -69,7 +69,7 @@ public class TestPerformance {
 		assertTrue(TimeUnit.MINUTES.toSeconds(15) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));
 	}
 	
-	@Ignore
+
 	@Test
 	public void highVolumeGetRewards() {
 		Locale.setDefault(new Locale("en", "US"));
