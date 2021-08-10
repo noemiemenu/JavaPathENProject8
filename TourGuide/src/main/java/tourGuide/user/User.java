@@ -16,7 +16,7 @@ public class User {
 	private String emailAddress;
 	private Date latestLocationTimestamp;
 	private final List<VisitedLocation> visitedLocations = new CopyOnWriteArrayList<>();
-	private List<UserReward> userRewards = new ArrayList<>();
+	private ThreadLocal<List<UserReward>> userRewards = new ThreadLocal<>();
 	private UserPreferences userPreferences = new UserPreferences();
 	private List<Provider> tripDeals = new ArrayList<>();
 
@@ -25,6 +25,7 @@ public class User {
 		this.userName = userName;
 		this.phoneNumber = phoneNumber;
 		this.emailAddress = emailAddress;
+		userRewards.set(new ArrayList<>());
 	}
 	
 	public UUID getUserId() {
@@ -71,14 +72,14 @@ public class User {
 		visitedLocations.clear();
 	}
 	
-	public void addUserReward(UserReward userReward) {
-		if(userRewards.stream().noneMatch(r -> true)) {
-			userRewards.add(userReward);
+	public synchronized void addUserReward(UserReward userReward) {
+		if(userRewards.get().stream().noneMatch(r -> r.attraction.attractionId == userReward.attraction.attractionId)) {
+			userRewards.get().add(userReward);
 		}
 	}
 	
 	public List<UserReward> getUserRewards() {
-		return userRewards;
+		return userRewards.get();
 	}
 	
 	public UserPreferences getUserPreferences() {

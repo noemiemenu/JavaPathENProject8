@@ -49,9 +49,7 @@ public class TestRewardsService {
 		Attraction attraction = gpsUtil.getAttractions().get(0);
 		assertTrue(rewardsService.isWithinAttractionProximity(attraction, attraction));
 	}
-	
-	 // Needs fixed - can throw ConcurrentModificationException
-	@Ignore
+
 	@Test
 	public void nearAllAttractions() {
 		Locale.setDefault(new Locale("en", "US"));
@@ -61,7 +59,7 @@ public class TestRewardsService {
 
 		InternalTestHelper.setInternalUserNumber(1);
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
-		
+
 		rewardsService.calculateRewards(tourGuideService.getAllUsers().get(0));
 		List<UserReward> userRewards = tourGuideService.getUserRewards(tourGuideService.getAllUsers().get(0));
 		tourGuideService.tracker.stopTracking();
