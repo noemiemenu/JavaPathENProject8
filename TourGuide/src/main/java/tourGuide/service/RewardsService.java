@@ -1,9 +1,7 @@
 package tourGuide.service;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,7 @@ public class RewardsService {
 	private int proximityBuffer = defaultProximityBuffer;
 	private final GpsUtil gpsUtil;
 	private final RewardCentral rewardsCentral;
-	private final List<Attraction> attractions = new CopyOnWriteArrayList<>();
+	private final List<Attraction> attractions = new ArrayList<>();
 
 	public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
 		this.gpsUtil = gpsUtil;
@@ -60,7 +58,7 @@ public class RewardsService {
 		return !(getDistance(attraction, visitedLocation.location) > proximityBuffer);
 	}
 	
-	private int getRewardPoints(Attraction attraction, User user) {
+	public int getRewardPoints(Attraction attraction, User user) {
 		return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());
 	}
 	

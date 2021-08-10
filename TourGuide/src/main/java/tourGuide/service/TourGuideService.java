@@ -2,13 +2,7 @@ package tourGuide.service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -21,6 +15,9 @@ import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
 import tourGuide.helper.InternalTestHelper;
+import tourGuide.model.DistanceOfAttraction;
+import tourGuide.model.UsersLocations;
+import tourGuide.response.AttractionResponse;
 import tourGuide.tracker.Tracker;
 import tourGuide.user.User;
 import tourGuide.user.UserReward;
@@ -35,6 +32,8 @@ public class TourGuideService {
 	private final TripPricer tripPricer = new TripPricer();
 	public final Tracker tracker;
 	boolean testMode = true;
+
+	public DistanceOfAttraction distanceOfAttraction;
 	
 	public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
 		this.gpsUtil = gpsUtil;
@@ -66,7 +65,7 @@ public class TourGuideService {
 	}
 	
 	public List<User> getAllUsers() {
-		return internalUserMap.values().stream().collect(Collectors.toList());
+		return new ArrayList<>(internalUserMap.values());
 	}
 	
 	public void addUser(User user) {
@@ -76,9 +75,9 @@ public class TourGuideService {
 	}
 	
 	public List<Provider> getTripDeals(User user) {
-		int cumulatativeRewardPoints = user.getUserRewards().stream().mapToInt(i -> i.getRewardPoints()).sum();
+		int cumulatedRewardPoints = user.getUserRewards().stream().mapToInt(UserReward::getRewardPoints).sum();
 		List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, user.getUserId(), user.getUserPreferences().getNumberOfAdults(), 
-				user.getUserPreferences().getNumberOfChildren(), user.getUserPreferences().getTripDuration(), cumulatativeRewardPoints);
+				user.getUserPreferences().getNumberOfChildren(), user.getUserPreferences().getTripDuration(), cumulatedRewardPoints);
 		user.setTripDeals(providers);
 		return providers;
 	}
@@ -90,14 +89,28 @@ public class TourGuideService {
 		return visitedLocation;
 	}
 
-	public List<Attraction> getNearByAttractions(VisitedLocation visitedLocation) {
-		List<Attraction> nearbyAttractions = new ArrayList<>();
+	public List<AttractionResponse> getNearByAttractions(VisitedLocation visitedLocation, User user) {
+		List<AttractionResponse> nearbyAttractions = new ArrayList<>();
+		List<DistanceOfAttraction> distances = new ArrayList<>();
+
 		for(Attraction attraction : gpsUtil.getAttractions()) {
-			if(rewardsService.isWithinAttractionProximity(attraction, visitedLocation.location)) {
-				nearbyAttractions.add(attraction);
-			}
+			distances.add(new DistanceOfAttraction(rewardsService.getDistance(visitedLocation.location, attraction), attraction));
 		}
-		
+
+		distances.sort((distance1, distance2) -> {
+			if (distance1.getDistance() > distance2.getDistance()) return -1;
+			if (distance1.getDistance() < distance2.getDistance()) return 1;
+			return 0;
+		});
+
+		List<DistanceOfAttraction> fiveFirstAttractions = distances.subList(0, 5);
+
+		for(DistanceOfAttraction distanceOfAttraction : fiveFirstAttractions){
+			int reward = rewardsService.getRewardPoints(distanceOfAttraction.getAttraction(), user);
+			double distance = distanceOfAttraction.getDistance();
+			nearbyAttractions.add(new AttractionResponse(distanceOfAttraction.getAttraction(), distance, visitedLocation.location, reward));
+		}
+
 		return nearbyAttractions;
 	}
 	
@@ -108,7 +121,23 @@ public class TourGuideService {
 		      } 
 		    }); 
 	}
-	
+
+
+	public List<UsersLocations> getAllCurrentLocations(){
+		List<UsersLocations> usersLocationsList = new ArrayList<>();
+
+		for (User user : getAllUsers()){
+			UUID userId = user.getUserId();
+			VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
+			usersLocationsList.add(new UsersLocations(userId, userLastVisitedLocation.location));
+		}
+
+		return usersLocationsList;
+	}
+
+
+
+
 	/**********************************************************************************
 	 * 
 	 * Methods Below: For Internal Testing
