@@ -1,8 +1,5 @@
 package tourGuide;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -15,10 +12,14 @@ import gpsUtil.location.Attraction;
 import gpsUtil.location.VisitedLocation;
 import rewardCentral.RewardCentral;
 import tourGuide.helper.InternalTestHelper;
+import tourGuide.model.UsersLocations;
+import tourGuide.response.AttractionResponse;
 import tourGuide.service.RewardsService;
 import tourGuide.service.TourGuideService;
 import tourGuide.user.User;
 import tripPricer.Provider;
+
+import static org.junit.Assert.*;
 
 public class TestTourGuideService {
 
@@ -97,26 +98,26 @@ public class TestTourGuideService {
 		assertEquals(user.getUserId(), visitedLocation.userId);
 	}
 	
-	@Ignore // Not yet implemented
+	 // Not yet implemented
 	@Test
-	public void getNearbyAttractions() {
+	public void TestGetNearbyAttractions() {
 		Locale.setDefault(new Locale("en", "US"));
 		GpsUtil gpsUtil = new GpsUtil();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 		InternalTestHelper.setInternalUserNumber(0);
 		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
-		
+
 		User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		VisitedLocation visitedLocation = tourGuideService.trackUserLocation(user);
 		
-		List<Attraction> attractions = tourGuideService.getNearByAttractions(visitedLocation);
+		List<AttractionResponse> attractions = tourGuideService.getNearByAttractions(visitedLocation, user);
 		
 		tourGuideService.tracker.stopTracking();
-		
+
 		assertEquals(5, attractions.size());
 	}
 	
-	public void getTripDeals() {
+	public void TestGetTripDeals() {
 		Locale.setDefault(new Locale("en", "US"));
 		GpsUtil gpsUtil = new GpsUtil();
 		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
@@ -131,6 +132,27 @@ public class TestTourGuideService {
 		
 		assertEquals(10, providers.size());
 	}
-	
+
+	@Test
+	public void TestGetAllCurrentLocations(){
+		Locale.setDefault(new Locale("en", "US"));
+		GpsUtil gpsUtil = new GpsUtil();
+		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
+		InternalTestHelper.setInternalUserNumber(100);
+		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
+
+		User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
+		VisitedLocation visitedLocation = tourGuideService.trackUserLocation(user);
+
+		List<UsersLocations> usersLocationsList = tourGuideService.getAllCurrentLocations();
+		tourGuideService.tracker.stopTracking();
+		UsersLocations userLocations = usersLocationsList.get(0);
+
+		assertNotNull(userLocations);
+		assertNotNull(userLocations.getLocation());
+		assertNotNull(userLocations.getUserId());
+
+
+	}
 	
 }
