@@ -116,7 +116,8 @@ public class TestTourGuideService {
 
 		assertEquals(5, attractions.size());
 	}
-	
+
+	@Test
 	public void TestGetTripDeals() {
 		Locale.setDefault(new Locale("en", "US"));
 		GpsUtil gpsUtil = new GpsUtil();
@@ -130,7 +131,7 @@ public class TestTourGuideService {
 		
 		tourGuideService.tracker.stopTracking();
 		
-		assertEquals(10, providers.size());
+		assertEquals(5, providers.size());
 	}
 
 	@Test

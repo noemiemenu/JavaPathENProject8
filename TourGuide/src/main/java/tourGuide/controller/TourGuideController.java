@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jsoniter.output.JsonStream;
 
 import gpsUtil.location.VisitedLocation;
+import tourGuide.model.UserPreferencesRequest;
 import tourGuide.model.UsersLocations;
 import tourGuide.service.TourGuideService;
 import tourGuide.user.User;
+import tourGuide.user.UserPreferences;
 import tripPricer.Provider;
+
+import javax.validation.Valid;
 
 @RestController
 public class TourGuideController {
@@ -53,8 +57,18 @@ public class TourGuideController {
     }
     
     @RequestMapping("/getTripDeals")
-    public String getTripDeals(@RequestParam String userName) {
-    	List<Provider> providers = tourGuideService.getTripDeals(getUser(userName));
+    public String getTripDeals(@RequestParam String userName, @Valid UserPreferencesRequest userPreferencesRequest) {
+        User user = getUser(userName);
+        UserPreferences userPreferences = user.getUserPreferences();
+        userPreferences.setCurrency(userPreferencesRequest.getCurrency());
+        userPreferences.setAttractionProximity(userPreferencesRequest.getAttractionProximity());
+        userPreferences.setHighPricePoint(userPreferencesRequest.getHighPricePoint());
+        userPreferences.setLowerPricePoint(userPreferencesRequest.getLowerPricePoint());
+        userPreferences.setTripDuration(userPreferencesRequest.getTripDuration());
+        userPreferences.setTicketQuantity(userPreferencesRequest.getTicketQuantity());
+        userPreferences.setNumberOfAdults(userPreferencesRequest.getNumberOfAdults());
+        userPreferences.setNumberOfChildren(userPreferencesRequest.getNumberOfChildren());
+    	List<Provider> providers = tourGuideService.getTripDeals(user);
     	return JsonStream.serialize(providers);
     }
 
