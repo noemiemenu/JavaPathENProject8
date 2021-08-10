@@ -73,7 +73,7 @@ public class TourGuideService {
 			internalUserMap.put(user.getUserName(), user);
 		}
 	}
-	
+	// TODO : mentor tripPrice
 	public List<Provider> getTripDeals(User user) {
 		int cumulatedRewardPoints = user.getUserRewards().stream().mapToInt(UserReward::getRewardPoints).sum();
 		List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, user.getUserId(), user.getUserPreferences().getNumberOfAdults(), 
