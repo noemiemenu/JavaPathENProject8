@@ -1,6 +1,5 @@
 package tourGuide.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -11,8 +10,8 @@ import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
 import rewardCentral.RewardCentral;
-import tourGuide.user.User;
-import tourGuide.user.UserReward;
+import com.tourguide.library.user.User;
+import com.tourguide.library.user.UserReward;
 
 @Service
 public class RewardsService {
@@ -23,7 +22,7 @@ public class RewardsService {
 	private int proximityBuffer = defaultProximityBuffer;
 	private final GpsUtil gpsUtil;
 	private final RewardCentral rewardsCentral;
-	private final List<Attraction> attractions = new ArrayList<>();
+	private final List<Attraction> attractions = new CopyOnWriteArrayList<>();
 
 	public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
 		this.gpsUtil = gpsUtil;

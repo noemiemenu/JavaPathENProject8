@@ -3,7 +3,6 @@ package tourGuide.service;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
@@ -19,8 +18,8 @@ import tourGuide.model.DistanceOfAttraction;
 import tourGuide.model.UsersLocations;
 import tourGuide.response.AttractionResponse;
 import tourGuide.tracker.Tracker;
-import tourGuide.user.User;
-import tourGuide.user.UserReward;
+import com.tourguide.library.user.User;
+import com.tourguide.library.user.UserReward;
 import tripPricer.Provider;
 import tripPricer.TripPricer;
 

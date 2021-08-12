@@ -12,10 +12,9 @@ import com.jsoniter.output.JsonStream;
 
 import gpsUtil.location.VisitedLocation;
 import tourGuide.model.UserPreferencesRequest;
-import tourGuide.model.UsersLocations;
 import tourGuide.service.TourGuideService;
-import tourGuide.user.User;
-import tourGuide.user.UserPreferences;
+import com.tourguide.library.user.User;
+import com.tourguide.library.user.UserPreferences;
 import tripPricer.Provider;
 
 import javax.validation.Valid;
@@ -55,7 +54,8 @@ public class TourGuideController {
     public String getAllCurrentLocations() {
     	return JsonStream.serialize(tourGuideService.getAllCurrentLocations());
     }
-    
+
+
     @RequestMapping("/getTripDeals")
     public String getTripDeals(@RequestParam String userName, @Valid UserPreferencesRequest userPreferencesRequest) {
         User user = getUser(userName);

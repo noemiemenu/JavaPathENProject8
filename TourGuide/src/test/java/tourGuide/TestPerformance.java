@@ -11,7 +11,7 @@ import rewardCentral.RewardCentral;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.service.RewardsService;
 import tourGuide.service.TourGuideService;
-import tourGuide.user.User;
+import com.tourguide.library.user.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +45,7 @@ public class TestPerformance {
 	 */
 
 
-
+    @Ignore
 	@Test
 	public void highVolumeTrackLocation() {
 		Locale.setDefault(new Locale("en", "US"));
@@ -70,7 +70,7 @@ public class TestPerformance {
 	}
 	
 
-
+	@Ignore
 	@Test
 	public void highVolumeGetRewards() {
 		Locale.setDefault(new Locale("en", "US"));

@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import gpsUtil.GpsUtil;
-import gpsUtil.location.Attraction;
 import gpsUtil.location.VisitedLocation;
 import rewardCentral.RewardCentral;
 import tourGuide.helper.InternalTestHelper;
@@ -16,7 +14,7 @@ import tourGuide.model.UsersLocations;
 import tourGuide.response.AttractionResponse;
 import tourGuide.service.RewardsService;
 import tourGuide.service.TourGuideService;
-import tourGuide.user.User;
+import com.tourguide.library.user.User;
 import tripPricer.Provider;
 
 import static org.junit.Assert.*;
