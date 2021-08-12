@@ -3,9 +3,7 @@ package com.tourguide.library.user;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.VisitedLocation;
 
-import java.io.Serializable;
-
-public class UserReward implements Serializable {
+public class UserReward {
 
 	public final VisitedLocation visitedLocation;
 	public final Attraction attraction;
@@ -21,7 +19,6 @@ public class UserReward implements Serializable {
 		this.visitedLocation = visitedLocation;
 		this.attraction = attraction;
 	}
-
 
 	public void setRewardPoints(int rewardPoints) {
 		this.rewardPoints = rewardPoints;
