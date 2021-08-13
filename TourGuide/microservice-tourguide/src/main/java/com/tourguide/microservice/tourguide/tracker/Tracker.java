@@ -1,16 +1,15 @@
-package tourGuide.tracker;
+package com.tourguide.microservice.tourguide.tracker;
+
+import com.tourguide.library.user.User;
+import org.apache.commons.lang3.time.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.tourguide.microservice.tourguide.service.TourGuideService;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.time.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import tourGuide.service.TourGuideService;
-import com.tourguide.library.user.User;
 
 public class Tracker extends Thread {
 	private Logger logger = LoggerFactory.getLogger(Tracker.class);

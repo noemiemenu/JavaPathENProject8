@@ -1,13 +1,11 @@
 package com.tourguide.microservice.rewards.service;
 
-import com.tourguide.feign_clients.UsersAPI;
 import com.tourguide.library.user.User;
 import com.tourguide.library.user.UserReward;
 import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rewardCentral.RewardCentral;
 
@@ -22,13 +20,12 @@ public class RewardsService {
     // proximity in miles
     private final int defaultProximityBuffer = 10;
     private int proximityBuffer = defaultProximityBuffer;
+    private final GpsUtil gpsUtil;
     private final RewardCentral rewardsCentral;
-    private final List<gpsUtil.location.Attraction> attractions = new CopyOnWriteArrayList<gpsUtil.location.Attraction>();
-
-    @Autowired
-    private UsersAPI usersAPI;
+    private final List<Attraction> attractions = new CopyOnWriteArrayList<>();
 
     public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
+        this.gpsUtil = gpsUtil;
         this.rewardsCentral = rewardCentral;
         attractions.addAll(gpsUtil.getAttractions());
     }
@@ -37,17 +34,14 @@ public class RewardsService {
         this.proximityBuffer = proximityBuffer;
     }
 
-    public void calculateRewards(String userName) {
-        User user = usersAPI.getUser(userName);
+    public void calculateRewards(User user) {
         List<VisitedLocation> userLocations = user.getVisitedLocations();
 
         for (VisitedLocation visitedLocation : userLocations) {
             for (Attraction attraction : attractions) {
                 if (user.getUserRewards().stream().noneMatch(reward -> reward.attraction.attractionName.equals(attraction.attractionName))) {
                     if (nearAttraction(visitedLocation, attraction)) {
-                        UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
-                        usersAPI.createUserReward(userReward, userName);
-                        user.addUserReward(userReward);
+                        user.addUserReward(new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user)));
                     }
                 }
             }

@@ -25,7 +25,6 @@ dependencies {
 
     implementation project (':library')
     implementation name:'gpsUtil', ext:'jar'
-    implementation(name:'TripPricer', ext:'jar')
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
