@@ -4,6 +4,7 @@ plugins {
 
 group 'com.tourguide.library'
 version '1.0'
+sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
