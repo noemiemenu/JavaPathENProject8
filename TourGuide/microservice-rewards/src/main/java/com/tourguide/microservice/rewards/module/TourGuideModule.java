@@ -1,4 +1,4 @@
-package com.tourguide.microservices.rewards.module;
+package com.tourguide.microservice.rewards.module;
 
 import gpsUtil.GpsUtil;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.tourguide.microservices.rewards.service;
+package com.tourguide.microservice.rewards.service;
 
 import com.tourguide.library.user.User;
 import com.tourguide.library.user.UserReward;

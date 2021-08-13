@@ -8,6 +8,8 @@
  */
 
 rootProject.name = 'TourGuide'
-include 'microservice-rewards'
 include 'library'
+include 'microservice-rewards'
+include 'microservice-tourguide'
+include 'microservice-users'
 
