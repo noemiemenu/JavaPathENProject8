@@ -26,16 +26,14 @@ import java.util.stream.IntStream;
 public class TourGuideService {
     private Logger logger = LoggerFactory.getLogger(TourGuideService.class);
     private final GpsUtil gpsUtil;
-    private final RewardsService rewardsService;
     private final TripPricer tripPricer = new TripPricer();
     public final Tracker tracker;
     boolean testMode = true;
 
     public DistanceOfAttraction distanceOfAttraction;
 
-    public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
+    public TourGuideService(GpsUtil gpsUtil) {
         this.gpsUtil = gpsUtil;
-        this.rewardsService = rewardsService;
 
         if (testMode) {
             logger.info("TestMode enabled");
@@ -48,28 +46,12 @@ public class TourGuideService {
         addShutDownHook();
     }
 
-    public List<UserReward> getUserRewards(User user) {
-        return user.getUserRewards();
-    }
-
     public VisitedLocation getUserLocation(User user) {
+        // call to users microservice
+
         return (user.getVisitedLocations().size() > 0) ?
                 user.getLastVisitedLocation() :
                 trackUserLocation(user);
-    }
-
-    public User getUser(String userName) {
-        return internalUserMap.get(userName);
-    }
-
-    public List<User> getAllUsers() {
-        return new ArrayList<>(internalUserMap.values());
-    }
-
-    public void addUser(User user) {
-        if (!internalUserMap.containsKey(user.getUserName())) {
-            internalUserMap.put(user.getUserName(), user);
-        }
     }
 
     public List<Provider> getTripDeals(User user) {
@@ -83,6 +65,7 @@ public class TourGuideService {
     public VisitedLocation trackUserLocation(User user) {
         VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
         user.addToVisitedLocations(visitedLocation);
+        // Todo :call to rewards microservice
         rewardsService.calculateRewards(user);
         return visitedLocation;
     }

@@ -2,6 +2,7 @@ package com.tourguide.microservice.users.services;
 
 import com.tourguide.library.helper.InternalTestHelper;
 import com.tourguide.library.user.User;
+import com.tourguide.library.user.UserReward;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
 import org.slf4j.Logger;
@@ -79,4 +80,11 @@ public class UserService {
         }
     }
 
+    public List<UserReward> getUserRewards(User user) {
+        return user.getUserRewards();
+    }
+
+    public void addUserReward(String userName, UserReward userReward) {
+        getUser(userName).addUserReward(userReward);
+    }
 }
