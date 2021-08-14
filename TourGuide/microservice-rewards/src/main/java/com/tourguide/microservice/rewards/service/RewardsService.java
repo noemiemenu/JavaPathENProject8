@@ -1,11 +1,13 @@
 package com.tourguide.microservice.rewards.service;
 
+import com.tourguide.feign_clients.UsersAPI;
 import com.tourguide.library.user.User;
 import com.tourguide.library.user.UserReward;
 import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rewardCentral.RewardCentral;
 
@@ -24,6 +26,9 @@ public class RewardsService {
     private final RewardCentral rewardsCentral;
     private final List<Attraction> attractions = new CopyOnWriteArrayList<>();
 
+    @Autowired
+    private UsersAPI usersAPI;
+
     public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
         this.gpsUtil = gpsUtil;
         this.rewardsCentral = rewardCentral;
@@ -34,14 +39,18 @@ public class RewardsService {
         this.proximityBuffer = proximityBuffer;
     }
 
-    public void calculateRewards(User user) {
+    public void calculateRewards(String userName) {
+        User user = usersAPI.getUser(userName);
         List<VisitedLocation> userLocations = user.getVisitedLocations();
 
         for (VisitedLocation visitedLocation : userLocations) {
             for (Attraction attraction : attractions) {
                 if (user.getUserRewards().stream().noneMatch(reward -> reward.attraction.attractionName.equals(attraction.attractionName))) {
                     if (nearAttraction(visitedLocation, attraction)) {
-                        user.addUserReward(new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user)));
+                        UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
+                        // Todo: call to add a userReward in users API
+                        usersAPI.createUserReward(userReward, userName);
+                        user.addUserReward(userReward);
                     }
                 }
             }
