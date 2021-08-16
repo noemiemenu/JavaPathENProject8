@@ -1,5 +1,7 @@
 package com.tourguide.microservice.tourguide.service;
 
+import com.tourguide.feign_clients.RewardsAPI;
+import com.tourguide.feign_clients.UsersAPI;
 import com.tourguide.library.user.User;
 import com.tourguide.library.user.UserReward;
 import gpsUtil.GpsUtil;
@@ -8,6 +10,7 @@ import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tourguide.library.helper.InternalTestHelper;
 import com.tourguide.library.model.DistanceOfAttraction;
@@ -29,6 +32,12 @@ public class TourGuideService {
     private final TripPricer tripPricer = new TripPricer();
     public final Tracker tracker;
     boolean testMode = true;
+
+    @Autowired
+    private RewardsAPI rewardsAPI;
+
+    @Autowired
+    private UsersAPI usersAPI;
 
     public DistanceOfAttraction distanceOfAttraction;
 
@@ -66,7 +75,7 @@ public class TourGuideService {
         VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
         user.addToVisitedLocations(visitedLocation);
         // Todo :call to rewards microservice
-        rewardsService.calculateRewards(user);
+        rewardsAPI.calculateRewards(user.getUserName());
         return visitedLocation;
     }
 
@@ -107,7 +116,7 @@ public class TourGuideService {
     public List<UsersLocations> getAllCurrentLocations() {
         List<UsersLocations> usersLocationsList = new ArrayList<>();
 
-        for (User user : getAllUsers()) {
+        for (User user : usersAPI.getUsers()) {
             UUID userId = user.getUserId();
             VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
             usersLocationsList.add(new UsersLocations(userId, userLastVisitedLocation.location));

@@ -48,7 +48,7 @@ public class RewardsService {
                 if (user.getUserRewards().stream().noneMatch(reward -> reward.attraction.attractionName.equals(attraction.attractionName))) {
                     if (nearAttraction(visitedLocation, attraction)) {
                         UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
-                        // Todo: call to add a userReward in users API
+                        // todo: call to add a userReward in users API
                         usersAPI.createUserReward(userReward, userName);
                         user.addUserReward(userReward);
                     }
