@@ -27,7 +27,7 @@ dependencies {
 
     implementation(name:'gpsUtil', ext:'jar')
     implementation(name:'RewardCentral', ext:'jar')
-    implementation project(':library')
+    implementation project (':library')
     implementation project (':feign_clients')
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -93,6 +93,7 @@ public class UserPreferences {
     public CurrencyUnit getCurrency() {
         return currency;
     }
+
     public void  setCurrency(String currency){
         this.currency = Monetary.getCurrency(currency);
     }
