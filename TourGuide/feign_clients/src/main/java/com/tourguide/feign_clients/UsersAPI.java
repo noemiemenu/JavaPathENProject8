@@ -24,7 +24,7 @@ public interface UsersAPI {
     @PostMapping("/rewards/{userName}")
     void createUserReward(UserReward userReward, @PathVariable String userName);
 
-    @PatchMapping("/tripDeals/{userName}")
+    @PostMapping("/tripDeals/{userName}")
     void updateTripDeals(@PathVariable String userName, @RequestBody List<Provider> tripDeals);
 
 }

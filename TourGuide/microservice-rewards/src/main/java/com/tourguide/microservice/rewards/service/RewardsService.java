@@ -50,7 +50,6 @@ public class RewardsService {
                         UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
                         usersAPI.createUserReward(userReward, userName);
                         user.addUserReward(userReward);
-                        System.out.println("This user won: " + userReward.getRewardPoints());
                     }
                 }
             }

@@ -38,7 +38,7 @@ public class UserController {
         userService.addUserReward(userName, userReward);
     }
 
-    @PatchMapping("/tripDeals/{userName}")
+    @PostMapping("/tripDeals/{userName}")
     public void updateTripDeals(@PathVariable String userName, @RequestBody List<Provider> tripDeals){
         userService.updateTripDeals(userName, tripDeals);
     }
