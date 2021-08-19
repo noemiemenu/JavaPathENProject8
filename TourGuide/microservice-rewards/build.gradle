@@ -31,6 +31,7 @@ dependencies {
     implementation project (':feign_clients')
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
 
 test {

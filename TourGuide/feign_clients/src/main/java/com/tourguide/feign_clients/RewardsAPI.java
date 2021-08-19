@@ -15,9 +15,9 @@ public interface RewardsAPI {
     @PostMapping("/calculateRewards/{userName}")
     ResponseEntity<String> calculateRewards(@PathVariable String userName);
 
-    @GetMapping("/getRewardPoints/{userName}")
+    @PostMapping("/getRewardPoints/{userName}")
     int getRewardPoints(@RequestBody Attraction attraction, @PathVariable String userName);
 
-    @GetMapping("/getDistance")
+    @PostMapping("/getDistance")
     double getDistance(@RequestBody DistancesHolder distancesHolder);
 }

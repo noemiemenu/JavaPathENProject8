@@ -27,12 +27,12 @@ public class RewardsController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/getRewardPoints/{userName}")
+    @PostMapping("/getRewardPoints/{userName}")
     public int getRewardPoints(@RequestBody Attraction attraction, @PathVariable String userName) {
         return rewardsService.getRewardPoints(attraction, usersAPI.getUser(userName));
     }
 
-    @GetMapping("/getDistance")
+    @PostMapping("/getDistance")
     public double getDistance(@RequestBody DistancesHolder distancesHolder){
         return rewardsService.getDistance(distancesHolder.getLocation1(), distancesHolder.getLocation2());
     }
