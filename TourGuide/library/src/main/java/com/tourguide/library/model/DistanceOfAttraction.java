@@ -1,9 +1,9 @@
 package com.tourguide.library.model;
 
+
 import gpsUtil.location.Attraction;
 
-
-public class DistanceOfAttraction{
+public class DistanceOfAttraction {
     private final double distance;
     private final Attraction attraction;
 

@@ -1,5 +1,6 @@
 package com.tourguide.library.model;
 
+
 public class UserPreferencesRequest {
     private int attractionProximity = Integer.MAX_VALUE;
     private String currency = "USD";

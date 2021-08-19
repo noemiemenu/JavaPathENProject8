@@ -3,7 +3,9 @@ package com.tourguide.library.user;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.VisitedLocation;
 
-public class UserReward {
+import java.io.Serializable;
+
+public class UserReward implements Serializable {
 
 	public final VisitedLocation visitedLocation;
 	public final Attraction attraction;

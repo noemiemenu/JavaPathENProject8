@@ -1,5 +1,6 @@
 package com.tourguide.microservice.tourguide.tracker;
 
+import com.tourguide.feign_clients.UsersAPI;
 import com.tourguide.library.user.User;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ public class Tracker extends Thread {
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 	private final TourGuideService tourGuideService;
 	private boolean stop = false;
+	private UsersAPI usersAPI;
 
 	public Tracker(TourGuideService tourGuideService) {
 		this.tourGuideService = tourGuideService;
@@ -40,7 +42,7 @@ public class Tracker extends Thread {
 				break;
 			}
 			
-			List<User> users = tourGuideService.getAllUsers();
+			List<User> users = usersAPI.getUsers();
 			logger.debug("Begin Tracker. Tracking " + users.size() + " users.");
 			stopWatch.start();
 			users.forEach(tourGuideService::trackUserLocation);

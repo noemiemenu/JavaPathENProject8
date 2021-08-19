@@ -1,6 +1,7 @@
 package com.tourguide.microservice.users.services;
 
 import com.tourguide.library.helper.InternalTestHelper;
+import com.tourguide.library.model.UsersLocations;
 import com.tourguide.library.user.User;
 import com.tourguide.library.user.UserReward;
 import gpsUtil.location.Location;
@@ -8,6 +9,7 @@ import gpsUtil.location.VisitedLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import tripPricer.Provider;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -86,5 +88,23 @@ public class UserService {
 
     public void addUserReward(String userName, UserReward userReward) {
         getUser(userName).addUserReward(userReward);
+    }
+
+
+    public List<UsersLocations> getAllCurrentLocations() {
+        List<UsersLocations> usersLocationsList = new ArrayList<>();
+
+        for (User user : getAllUsers()) {
+            UUID userId = user.getUserId();
+            VisitedLocation userLastVisitedLocation = user.getLastVisitedLocation();
+            usersLocationsList.add(new UsersLocations(userId, userLastVisitedLocation.location));
+        }
+        return usersLocationsList;
+    }
+
+    public User updateTripDeals(String userName, List<Provider> tripDeals) {
+        User user = getUser(userName);
+        user.setTripDeals(tripDeals);
+        return user;
     }
 }

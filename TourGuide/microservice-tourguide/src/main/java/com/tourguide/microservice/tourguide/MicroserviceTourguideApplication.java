@@ -1,16 +1,17 @@
-package com.tourguide.microservice.rewards;
+package com.tourguide.microservice.tourguide;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication(scanBasePackages = {"com.tourguide.library.beans", "com.tourguide.microservice.rewards"})
+
+@SpringBootApplication(scanBasePackages = {"com.tourguide.library.beans", "com.tourguide.microservice.tourguide"})
 @EnableFeignClients(basePackages = {"com.tourguide.feign_clients"})
-public class MicroserviceRewardsApplication {
+public class MicroserviceTourguideApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MicroserviceRewardsApplication.class, args);
+        SpringApplication.run(MicroserviceTourguideApplication.class, args);
     }
 
 }
