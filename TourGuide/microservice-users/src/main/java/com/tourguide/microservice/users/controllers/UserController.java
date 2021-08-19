@@ -1,9 +1,11 @@
 package com.tourguide.microservice.users.controllers;
 
+import com.tourguide.library.model.UsersLocations;
 import com.tourguide.library.user.User;
 import com.tourguide.library.user.UserReward;
 import com.tourguide.microservice.users.services.UserService;
 import org.springframework.web.bind.annotation.*;
+import tripPricer.Provider;
 
 import java.util.List;
 
@@ -34,5 +36,15 @@ public class UserController {
     @PostMapping("/rewards/{userName}")
     public void createUserReward(@PathVariable String userName, @RequestBody UserReward userReward){
         userService.addUserReward(userName, userReward);
+    }
+
+    @PatchMapping("/tripDeals/{userName}")
+    public void updateTripDeals(@PathVariable String userName, @RequestBody List<Provider> tripDeals){
+        userService.updateTripDeals(userName, tripDeals);
+    }
+
+    @GetMapping("/getAllCurrentLocations")
+    public List<UsersLocations> getAllCurrentLocations(){
+        return userService.getAllCurrentLocations();
     }
 }

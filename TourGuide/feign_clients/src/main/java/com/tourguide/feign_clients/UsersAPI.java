@@ -3,9 +3,8 @@ package com.tourguide.feign_clients;
 import com.tourguide.library.user.User;
 import com.tourguide.library.user.UserReward;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import tripPricer.Provider;
 
 
 import java.util.List;
@@ -25,5 +24,7 @@ public interface UsersAPI {
     @PostMapping("/rewards/{userName}")
     void createUserReward(UserReward userReward, @PathVariable String userName);
 
+    @PatchMapping("/tripDeals/{userName}")
+    void updateTripDeals(@PathVariable String userName, @RequestBody List<Provider> tripDeals);
 
 }

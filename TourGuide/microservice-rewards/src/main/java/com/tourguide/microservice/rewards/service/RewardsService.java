@@ -24,7 +24,7 @@ public class RewardsService {
     private int proximityBuffer = defaultProximityBuffer;
     private final GpsUtil gpsUtil;
     private final RewardCentral rewardsCentral;
-    private final List<Attraction> attractions = new CopyOnWriteArrayList<>();
+    private final List<gpsUtil.location.Attraction> attractions = new CopyOnWriteArrayList<gpsUtil.location.Attraction>();
 
     @Autowired
     private UsersAPI usersAPI;
@@ -48,9 +48,9 @@ public class RewardsService {
                 if (user.getUserRewards().stream().noneMatch(reward -> reward.attraction.attractionName.equals(attraction.attractionName))) {
                     if (nearAttraction(visitedLocation, attraction)) {
                         UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
-                        // todo: call to add a userReward in users API
                         usersAPI.createUserReward(userReward, userName);
                         user.addUserReward(userReward);
+                        System.out.println("This user won: " + userReward.getRewardPoints());
                     }
                 }
             }
