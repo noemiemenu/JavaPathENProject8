@@ -24,6 +24,7 @@ public class RewardsController {
     @PostMapping("/calculateRewards/{userName}")
     public ResponseEntity<String> calculateRewards(@PathVariable String userName) {
         rewardsService.calculateRewards(userName);
+
         return ResponseEntity.ok().build();
     }
 

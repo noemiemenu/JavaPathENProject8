@@ -5,15 +5,13 @@ import com.tourguide.library.helper.UsersHelper;
 import com.tourguide.library.model.UsersLocations;
 import com.tourguide.library.user.User;
 import com.tourguide.library.user.UserReward;
-import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import tripPricer.Provider;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -24,7 +22,6 @@ public class UserService {
     private final Map<String, User> internalUserMap = new HashMap<>();
 
     public UserService(){
-
         if (testMode) {
             logger.info("TestMode enabled");
             logger.debug("Initializing users");

@@ -29,6 +29,7 @@ dependencies {
     implementation(name:'RewardCentral', ext:'jar')
     implementation project (':library')
     implementation project (':feign_clients')
+    implementation 'junit:junit:4.13.1'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
