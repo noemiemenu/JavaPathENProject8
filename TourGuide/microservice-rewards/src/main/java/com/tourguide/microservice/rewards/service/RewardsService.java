@@ -22,7 +22,6 @@ public class RewardsService {
     // proximity in miles
     private final int defaultProximityBuffer = 10;
     private int proximityBuffer = defaultProximityBuffer;
-    private final GpsUtil gpsUtil;
     private final RewardCentral rewardsCentral;
     private final List<gpsUtil.location.Attraction> attractions = new CopyOnWriteArrayList<gpsUtil.location.Attraction>();
 
@@ -30,7 +29,6 @@ public class RewardsService {
     private UsersAPI usersAPI;
 
     public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
-        this.gpsUtil = gpsUtil;
         this.rewardsCentral = rewardCentral;
         attractions.addAll(gpsUtil.getAttractions());
     }

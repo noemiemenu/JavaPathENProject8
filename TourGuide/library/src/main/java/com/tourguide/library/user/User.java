@@ -28,11 +28,6 @@ public class User {
         this.userRewards = new ArrayList<>();
     }
 
-    public User() {
-        this.userId= UUID.randomUUID();
-        this.userName = "";
-    }
-
     public UUID getUserId() {
         return userId;
     }

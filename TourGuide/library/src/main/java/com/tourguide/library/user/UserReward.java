@@ -22,6 +22,7 @@ public class UserReward implements Serializable {
 		this.attraction = attraction;
 	}
 
+
 	public void setRewardPoints(int rewardPoints) {
 		this.rewardPoints = rewardPoints;
 	}
