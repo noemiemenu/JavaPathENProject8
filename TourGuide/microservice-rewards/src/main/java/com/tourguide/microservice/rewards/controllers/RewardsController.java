@@ -4,11 +4,13 @@ package com.tourguide.microservice.rewards.controllers;
 import com.tourguide.feign_clients.UsersAPI;
 import com.tourguide.library.model.DistancesHolder;
 
+import com.tourguide.library.user.UserReward;
 import com.tourguide.microservice.rewards.service.RewardsService;
 
 import gpsUtil.location.Attraction;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -22,10 +24,8 @@ public class RewardsController {
     }
 
     @PostMapping("/calculateRewards/{userName}")
-    public ResponseEntity<String> calculateRewards(@PathVariable String userName) {
-        rewardsService.calculateRewards(userName);
-
-        return ResponseEntity.ok().build();
+    public List<UserReward> calculateRewards(@PathVariable String userName) {
+        return rewardsService.calculateRewards(userName);
     }
 
     @PostMapping("/getRewardPoints/{userName}")

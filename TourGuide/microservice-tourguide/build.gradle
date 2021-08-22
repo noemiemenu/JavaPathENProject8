@@ -29,7 +29,10 @@ dependencies {
     implementation(name:'TripPricer', ext:'jar')
     implementation project(':library')
     implementation project (':feign_clients')
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.github.tomakehurst:wiremock:2.27.2'
+
 }
 
 test {
