@@ -1,6 +1,5 @@
 package com.tourguide.microservice.rewards;
 
-import com.tourguide.feign_clients.UsersAPI;
 import com.tourguide.library.helper.InternalTestHelper;
 import com.tourguide.library.helper.UsersHelper;
 import com.tourguide.library.user.User;
@@ -8,7 +7,6 @@ import com.tourguide.library.user.UserReward;
 import com.tourguide.microservice.rewards.service.RewardsService;
 import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class TestRewardsService {
 
-    private User user;
 
+    @Autowired
+    private com.tourguide.library.user.User user;
 
     @BeforeEach
     public void setup() {
