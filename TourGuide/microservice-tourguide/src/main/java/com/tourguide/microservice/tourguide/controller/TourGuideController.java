@@ -29,13 +29,11 @@ public class TourGuideController {
         return "Greetings from TourGuide!";
     }
 
-    //TODO: getLocation "status": 500, Cannot construct instance of `gpsUtil.location.Location`
     @GetMapping("/getLocation/{userName}")
     public VisitedLocation getLocation(@PathVariable String userName) {
     	return tourGuideService.getUserLocation(usersAPI.getUser(userName));
     }
 
-    //TODO: getNearbyAttractions "status": 500, Cannot construct instance of `gpsUtil.location.Location`
     @GetMapping("/getNearbyAttractions/{userName}")
     public List<AttractionResponse> getNearbyAttractions(@PathVariable String userName) {
         User user = usersAPI.getUser(userName);
@@ -43,7 +41,6 @@ public class TourGuideController {
     	return tourGuideService.getNearByAttractions(visitedLocation, user);
     }
 
-    //TODO: getTripDeals "status": 500, Cannot construct instance of `gpsUtil.location.Location`
     @GetMapping("/getTripDeals")
     public List<Provider> getTripDeals(@RequestParam String userName, @Valid UserPreferencesRequest userPreferencesRequest) {
         User user = usersAPI.getUser(userName);

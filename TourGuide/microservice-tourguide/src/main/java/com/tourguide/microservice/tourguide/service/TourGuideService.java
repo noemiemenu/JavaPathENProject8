@@ -29,7 +29,6 @@ import java.util.stream.IntStream;
 public class TourGuideService {
     private final GpsUtil gpsUtil;
     private final TripPricer tripPricer = new TripPricer();
-
     boolean testMode = true;
 
     @Autowired
@@ -57,9 +56,8 @@ public class TourGuideService {
     }
 
     public VisitedLocation trackUserLocation(User user) {
-        VisitedLocation visitedLocation = (VisitedLocation) gpsUtil.getUserLocation(user.getUserId());
+        VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
         user.addToVisitedLocations(visitedLocation);
-        // Todo :call to rewards microservice
         rewardsAPI.calculateRewards(user.getUserName());
         return visitedLocation;
     }

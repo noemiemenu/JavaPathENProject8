@@ -24,6 +24,11 @@ dependencies {
    // implementation 'org.zalando:gson-money-typeadapter:0.0.1'
 }
 
+
+bootJar {
+    enabled = false
+}
+
 test {
     useJUnitPlatform()
 }
