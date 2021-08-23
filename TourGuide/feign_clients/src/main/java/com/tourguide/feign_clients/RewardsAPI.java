@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "rewards-API", url = "http://localhost:8383")
+@FeignClient(name = "rewards-API", url = "${rewardsAPI.service.url}")
 public interface RewardsAPI {
 
     @PostMapping("/calculateRewards/{userName}")

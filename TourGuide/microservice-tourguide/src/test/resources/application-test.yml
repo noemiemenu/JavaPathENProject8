@@ -1,0 +1,7 @@
+usersAPI:
+  service:
+    url: http://localhost:9561
+
+rewardsAPI:
+  service:
+    url: http://localhost:9561
