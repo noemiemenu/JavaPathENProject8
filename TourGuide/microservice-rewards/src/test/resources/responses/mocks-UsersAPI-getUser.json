@@ -1,0 +1,51 @@
+{
+  "userId": "973a5072-6b81-4759-a97f-4286622eddd6",
+  "userName": "internalUser60",
+  "phoneNumber": "000",
+  "emailAddress": "internalUser60@tourGuide.com",
+  "latestLocationTimestamp": 1629666714509,
+  "visitedLocations": [
+    {
+      "userId": "973a5072-6b81-4759-a97f-4286622eddd6",
+      "location": {
+        "longitude": -170.5184423436287,
+        "latitude": 43.47447479116113
+      },
+      "timeVisited": 1628982714509
+    },
+    {
+      "userId": "973a5072-6b81-4759-a97f-4286622eddd6",
+      "location": {
+        "longitude": -41.61033445220619,
+        "latitude": -20.058183505781912
+      },
+      "timeVisited": 1629414714509
+    },
+    {
+      "userId": "973a5072-6b81-4759-a97f-4286622eddd6",
+      "location": {
+        "longitude": 66.67947426750965,
+        "latitude": -8.665006737102573
+      },
+      "timeVisited": 1627773114509
+    }
+  ],
+  "userRewards": [],
+  "userPreferences": {
+    "attractionProximity": 2147483647,
+    "currency": "USD",
+    "lowerPricePoint": {
+      "amount": 0,
+      "currency": "USD"
+    },
+    "highPricePoint": {
+      "amount": 2147483647,
+      "currency": "USD"
+    },
+    "tripDuration": 1,
+    "ticketQuantity": 1,
+    "numberOfAdults": 1,
+    "numberOfChildren": 0
+  },
+  "tripDeals": []
+}

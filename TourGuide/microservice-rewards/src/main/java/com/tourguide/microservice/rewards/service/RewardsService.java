@@ -37,7 +37,7 @@ public class RewardsService {
         this.proximityBuffer = proximityBuffer;
     }
 
-    public void calculateRewards(String userName) {
+    public List<UserReward> calculateRewards(String userName) {
         User user = usersAPI.getUser(userName);
         List<VisitedLocation> userLocations = user.getVisitedLocations();
 
@@ -46,12 +46,13 @@ public class RewardsService {
                 if (user.getUserRewards().stream().noneMatch(reward -> reward.attraction.attractionName.equals(attraction.attractionName))) {
                     if (nearAttraction(visitedLocation, attraction)) {
                         UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
-                        usersAPI.createUserReward(userReward, userName);
+                        usersAPI.createUserReward(userName, userReward);
                         user.addUserReward(userReward);
                     }
                 }
             }
         }
+        return user.getUserRewards();
     }
 
     public boolean isWithinAttractionProximity(Attraction attraction, Location location) {

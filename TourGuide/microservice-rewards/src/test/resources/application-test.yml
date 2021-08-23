@@ -1,0 +1,3 @@
+usersAPI:
+  service:
+    url: http://localhost:9561

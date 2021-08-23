@@ -9,7 +9,7 @@ import tripPricer.Provider;
 
 import java.util.List;
 
-@FeignClient(name = "users-API", url = "http://localhost:8282")
+@FeignClient(name = "users-API", url = "${usersAPI.service.url}")
 public interface UsersAPI {
 
     @GetMapping("/users")
@@ -22,7 +22,7 @@ public interface UsersAPI {
     List<UserReward> getUserRewards(@PathVariable String userName);
 
     @PostMapping("/rewards/{userName}")
-    void createUserReward(UserReward userReward, @PathVariable String userName);
+    void createUserReward(@PathVariable String userName, @RequestBody UserReward userReward);
 
     @PostMapping("/tripDeals/{userName}")
     void updateTripDeals(@PathVariable String userName, @RequestBody List<Provider> tripDeals);
