@@ -11,13 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rewardCentral.RewardCentral;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 @Service
 public class RewardsService {
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(64);
 
     // proximity in miles
     private final int defaultProximityBuffer = 10;
@@ -39,20 +44,40 @@ public class RewardsService {
 
     public List<UserReward> calculateRewards(String userName) {
         User user = usersAPI.getUser(userName);
+        return calculateRewards(user);
+    }
+
+    public List<UserReward> calculateRewards(User user) {
         List<VisitedLocation> userLocations = user.getVisitedLocations();
+        String userName = user.getUserName();
+
+        List<UserReward> newUserRewards = new ArrayList<>();
 
         for (VisitedLocation visitedLocation : userLocations) {
             for (Attraction attraction : attractions) {
                 if (user.getUserRewards().stream().noneMatch(reward -> reward.attraction.attractionName.equals(attraction.attractionName))) {
                     if (nearAttraction(visitedLocation, attraction)) {
-                        UserReward userReward = new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user));
-                        usersAPI.createUserReward(userName, userReward);
+                        UserReward userReward = new UserReward(visitedLocation, attraction, 0);
                         user.addUserReward(userReward);
+                        newUserRewards.add(userReward);
                     }
                 }
             }
         }
+
+        for (UserReward userReward : newUserRewards) {
+            CompletableFuture
+                    .supplyAsync(() -> getRewardPoints(userReward.attraction, user), executorService)
+                    .thenAccept((points) -> {
+                        userReward.setRewardPoints(points);
+                        usersAPI.createUserReward(userName, userReward);
+                    });
+        }
+
         return user.getUserRewards();
+    }
+    public ExecutorService getExecutorService() {
+        return executorService;
     }
 
     public boolean isWithinAttractionProximity(Attraction attraction, Location location) {

@@ -54,7 +54,12 @@ public class TourGuideController {
         userPreferences.setNumberOfAdults(userPreferencesRequest.getNumberOfAdults());
         userPreferences.setNumberOfChildren(userPreferencesRequest.getNumberOfChildren());
         return tourGuideService.getTripDeals(user);
+    }
 
+    @GetMapping("/trackUserLocation/{userName}")
+    public void trackUserLocation(@PathVariable String userName){
+        User user = usersAPI.getUser(userName);
+        tourGuideService.trackUserLocation(user);
     }
 
 }

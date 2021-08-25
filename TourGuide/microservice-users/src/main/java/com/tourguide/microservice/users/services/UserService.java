@@ -66,6 +66,10 @@ public class UserService {
         getUser(userName).addUserReward(userReward);
     }
 
+    public void addVisitedLocation(String userName, VisitedLocation visitedLocation){
+        getUser(userName).addToVisitedLocations(visitedLocation);
+    }
+
 
     public List<UsersLocations> getAllCurrentLocations() {
         List<UsersLocations> usersLocationsList = new ArrayList<>();

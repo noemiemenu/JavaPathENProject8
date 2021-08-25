@@ -107,5 +107,53 @@ public class ServerAPIMocks {
         );
     }
 
+    public static void setupMockUserAPIRewardResponses(WireMockServer mockService, int nbUsers) {
+
+        for (int i = 0; i < nbUsers; i++) {
+            mockService.stubFor(
+                    WireMock.post(
+                                    WireMock.urlEqualTo("/rewards/internalUser" + i))
+                            .willReturn(
+                                    WireMock.aResponse()
+                                            .withStatus(HttpStatus.OK.value())
+                                            .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                            )
+
+            );
+        }
+    }
+
+
+    public static void setupMockUserAPICalculateResponses(WireMockServer mockService, int nbUsers) {
+
+        for (int i = 0; i < nbUsers; i++) {
+            mockService.stubFor(
+                    WireMock.post(
+                                    WireMock.urlEqualTo("/calculateRewards/internalUser" + i))
+                            .willReturn(
+                                    WireMock.aResponse()
+                                            .withStatus(HttpStatus.OK.value())
+                                            .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                            )
+
+            );
+        }
+    }
+    public static void setupMockUserAPICreateVisitedLocationResponses(WireMockServer mockService, int nbUsers) {
+
+        for (int i = 0; i < nbUsers; i++) {
+            mockService.stubFor(
+                    WireMock.post(
+                                    WireMock.urlEqualTo("/addVisitedLocation/internalUser" + i))
+                            .willReturn(
+                                    WireMock.aResponse()
+                                            .withStatus(HttpStatus.OK.value())
+                                            .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                            )
+
+            );
+        }
+    }
+
 
 }

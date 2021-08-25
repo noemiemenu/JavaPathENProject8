@@ -8,7 +8,6 @@ import com.tourguide.microservice.rewards.config.WireMockConfig;
 import com.tourguide.microservice.rewards.service.RewardsService;
 import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +22,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -67,7 +67,8 @@ public class RewardsServiceTests {
                 new Attraction("name","city","state", 112345678, 123456789),
                 usersAPI.getUser("internalUser60")
         );
-        Assertions.assertNotEquals(0, rewardPoints);
+
+        assertNotEquals(0, rewardPoints);
     }
 
     @Test

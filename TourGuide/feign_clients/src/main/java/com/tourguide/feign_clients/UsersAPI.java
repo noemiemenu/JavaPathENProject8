@@ -2,6 +2,7 @@ package com.tourguide.feign_clients;
 
 import com.tourguide.library.user.User;
 import com.tourguide.library.user.UserReward;
+import gpsUtil.location.VisitedLocation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import tripPricer.Provider;
@@ -27,4 +28,6 @@ public interface UsersAPI {
     @PostMapping("/tripDeals/{userName}")
     void updateTripDeals(@PathVariable String userName, @RequestBody List<Provider> tripDeals);
 
+    @PostMapping("/addVisitedLocation/{userName}")
+    void createVisitedLocation(@PathVariable String userName, @RequestBody VisitedLocation visitedLocation);
 }

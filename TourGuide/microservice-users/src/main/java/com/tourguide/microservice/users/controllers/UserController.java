@@ -4,6 +4,7 @@ import com.tourguide.library.model.UsersLocations;
 import com.tourguide.library.user.User;
 import com.tourguide.library.user.UserReward;
 import com.tourguide.microservice.users.services.UserService;
+import gpsUtil.location.VisitedLocation;
 import org.springframework.web.bind.annotation.*;
 import tripPricer.Provider;
 
@@ -46,5 +47,10 @@ public class UserController {
     @GetMapping("/getAllCurrentLocations")
     public List<UsersLocations> getAllCurrentLocations(){
         return userService.getAllCurrentLocations();
+    }
+
+    @PostMapping("/addVisitedLocation/{userName}")
+    public void createVisitedLocation(@PathVariable String userName, @RequestBody VisitedLocation visitedLocation){
+        userService.addVisitedLocation(userName, visitedLocation);
     }
 }

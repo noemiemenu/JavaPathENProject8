@@ -101,9 +101,22 @@ class UsersServiceTests {
         userService.updateTripDeals(user.getUserName(), providerList);
 
         assertNotNull(user.getTripDeals());
-        assertNotEquals(0, user.getTripDeals().size());
+        assertNotEquals(0, userService.getUser(user.getUserName()).getTripDeals().size());
         assertNotNull(user.getTripDeals().get(0).tripId);
 
+    }
+
+    @Test
+    void createVisitedLocationTest(){
+        //given
+        User user = userService.getAllUsers().get(0);
+        VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), new Location(1234567, 1234567), new Date());
+        int visitedLocationNumber = user.getVisitedLocations().size();
+
+        //when
+        userService.addVisitedLocation(user.getUserName(),visitedLocation);
+        //then
+        assertEquals(visitedLocationNumber + 1, userService.getAllUsers().get(0).getVisitedLocations().size());
     }
 
 }

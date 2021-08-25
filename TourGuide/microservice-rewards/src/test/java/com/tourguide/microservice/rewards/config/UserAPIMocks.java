@@ -15,7 +15,7 @@ public class UserAPIMocks {
     public static void setupMockUserAPIResponse(WireMockServer mockService) throws IOException {
         mockService.stubFor(
                 WireMock.get(
-                                WireMock.urlEqualTo("/user/internalUser60"))
+                        WireMock.urlEqualTo("/user/internalUser60"))
                         .willReturn(WireMock.aResponse()
                                 .withStatus(HttpStatus.OK.value())
                                 .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
@@ -38,14 +38,33 @@ public class UserAPIMocks {
 
         );
 
-        mockService.stubFor(WireMock.get(WireMock.urlEqualTo("/rewards/internalUser60"))
-                .willReturn(WireMock.aResponse()
-                        .withStatus(HttpStatus.OK.value())
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                        .withBody(
-                                copyToString(
-                                        UserAPIMocks.class.getClassLoader().getResourceAsStream("responses/mocks-UsersAPI-getUserReward.json"),
-                                        defaultCharset()))));
+        mockService.stubFor(
+                        WireMock.get(WireMock.urlEqualTo("/rewards/internalUser60")
+                        ).willReturn(WireMock.aResponse().withStatus(HttpStatus.OK.value())
+                                .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                                .withBody(
+                                        copyToString(UserAPIMocks.class.getClassLoader()
+                                                .getResourceAsStream("responses/mocks-UsersAPI-getUserReward.json"), defaultCharset()
+                                        )
+                                )
+                        )
+        );
+    }
+
+    public static void setupMockUserAPIRewardResponses(WireMockServer mockService, int nbUsers) {
+
+        for (int i = 0; i < nbUsers; i++) {
+            mockService.stubFor(
+                    WireMock.post(
+                                    WireMock.urlEqualTo("/rewards/internalUser" + i))
+                            .willReturn(
+                                    WireMock.aResponse()
+                                            .withStatus(HttpStatus.OK.value())
+                                            .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                            )
+
+            );
+        }
     }
 
 }

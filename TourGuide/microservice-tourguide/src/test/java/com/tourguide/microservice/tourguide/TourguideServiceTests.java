@@ -1,42 +1,62 @@
 package com.tourguide.microservice.tourguide;
 
-import com.tourguide.library.helper.UsersHelper;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.tourguide.feign_clients.UsersAPI;
 import com.tourguide.library.user.User;
+import com.tourguide.microservice.tourguide.config.ServerAPIMocks;
+import com.tourguide.microservice.tourguide.config.WireMockUserAPIConfig;
 import com.tourguide.microservice.tourguide.response.AttractionResponse;
 import com.tourguide.microservice.tourguide.service.TourGuideService;
+import gpsUtil.GpsUtil;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import tripPricer.Provider;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
+@ActiveProfiles("test")
+@EnableConfigurationProperties
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = { WireMockUserAPIConfig.class })
 class TourguideServiceTests {
 
     @Autowired
     private TourGuideService tourGuideService;
 
-    private User user;
+    @Autowired
+    private WireMockServer mockService;
+
+    @Autowired
+    private UsersAPI usersAPI;
+
 
     @BeforeEach
-    public void setup() {
-        String userName = "internalUser1";
-        String phone = "000";
-        String email = userName + "@tourGuide.com";
-        this.user = new User(UUID.randomUUID(), userName, phone, email);
-        UsersHelper.generateUserLocationHistory(this.user);
+    void setUp() throws IOException {
+        ServerAPIMocks.setupMockUserAPIResponse(mockService);
     }
+
+
 
     @Test
     void getUserLocationTest() {
+        User user = usersAPI.getUser("internalUser60");
         VisitedLocation visitedLocation = tourGuideService.getUserLocation(user);
 
         assertNotNull(visitedLocation);
@@ -46,6 +66,8 @@ class TourguideServiceTests {
 
     @Test
     void getTripDealsTest(){
+        User user = usersAPI.getUser("internalUser60");
+
         List<Provider> providerList = tourGuideService.getTripDeals(user);
 
         assertNotNull(providerList.get(0));
@@ -56,6 +78,8 @@ class TourguideServiceTests {
 
     @Test
     void getNearByAttractionsTest(){
+        User user = usersAPI.getUser("internalUser60");
+
         VisitedLocation visitedLocation = new VisitedLocation(UUID.randomUUID(), new Location(1234567, 1234567), new Date());
         List<AttractionResponse> attractionResponses = tourGuideService.getNearByAttractions(visitedLocation, user);
 
@@ -67,7 +91,11 @@ class TourguideServiceTests {
     @Test
     void trackUserLocationTest(){
         Locale.setDefault(new Locale("en", "US"));
-        VisitedLocation trackVisitedLocation = tourGuideService.trackUserLocation(user);
+        User user = usersAPI.getUser("internalUser60");
+
+        tourGuideService.trackUserLocation(user);
+
+        VisitedLocation trackVisitedLocation = user.getLastVisitedLocation();
 
         assertNotNull(trackVisitedLocation);
         assertNotNull(trackVisitedLocation.location);
