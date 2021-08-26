@@ -3,21 +3,18 @@ version: "3.9"
 services:
   microservice_rewards:
     build: ./microservice-rewards
-    network_mode: host
     ports:
       - "8383:8383"
     container_name: "tourguideMicroserviceRewards"
 
   microservice_tourguide:
     build: ./microservice-tourguide
-    network_mode: host
     ports:
       - "8181:8181"
     container_name: "tourguideMicroserviceTourguide"
 
   microservice_users:
     build: ./microservice-users
-    network_mode: host
     ports:
       - "8282:8282"
     container_name: "tourguideMicroserviceUsers"
