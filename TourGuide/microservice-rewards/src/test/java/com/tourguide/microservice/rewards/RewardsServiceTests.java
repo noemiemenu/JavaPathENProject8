@@ -21,6 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,11 +52,20 @@ public class RewardsServiceTests {
     }
 
     @Test
-    public void calculateRewardsTest() {
+    public void calculateRewardsTest() throws InterruptedException {
         Locale.setDefault(new Locale("en", "US"));
         rewardsService.setProximityBuffer(Integer.MAX_VALUE);
+        rewardsService.resetThreadPool();
 
         List<UserReward> userRewards = rewardsService.calculateRewards("internalUser60");
+
+        ExecutorService executorService = rewardsService.getExecutorService();
+
+        executorService.shutdown();
+
+        if (!executorService.awaitTermination(15, TimeUnit.MINUTES)) {
+            executorService.shutdownNow();
+        }
 
         assertEquals(gpsUtil.getAttractions().size(), userRewards.size());
         assertNotNull(userRewards.get(0));
