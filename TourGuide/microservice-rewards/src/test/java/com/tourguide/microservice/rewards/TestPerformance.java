@@ -77,12 +77,13 @@ public class TestPerformance {
         Locale.setDefault(new Locale("en", "US"));
         InternalTestHelper.setInternalUserNumber(internalUserNumber);
         StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        rewardsService.resetThreadPool();
 
         Attraction attraction = gpsUtil.getAttractions().get(0);
         List<User> allUsers = new ArrayList<>(internalUserMap.values());
         allUsers.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), attraction, new Date())));
 
+        stopWatch.start();
         allUsers.forEach(rewardsService::calculateRewards);
 
         ExecutorService executorService = rewardsService.getExecutorService();
