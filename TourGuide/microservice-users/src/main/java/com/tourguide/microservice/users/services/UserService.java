@@ -21,6 +21,7 @@ public class UserService {
     boolean testMode = true;
     private final Map<String, User> internalUserMap = new HashMap<>();
 
+
     public UserService(){
         if (testMode) {
             logger.info("TestMode enabled");
@@ -29,6 +30,7 @@ public class UserService {
             logger.debug("Finished initializing users");
         }
     }
+
 
     private void initializeInternalUsers() {
         IntStream.range(0, InternalTestHelper.getInternalUserNumber()).forEach(i -> {
@@ -43,34 +45,61 @@ public class UserService {
         logger.debug("Created " + InternalTestHelper.getInternalUserNumber() + " internal test users.");
     }
 
+    /**
+     * @param userName
+     * @return the user
+     */
     public User getUser(String userName) {
         return internalUserMap.get(userName);
     }
 
+    /**
+     * @return the list of all users
+     */
     public List<User> getAllUsers() {
         return new ArrayList<>(internalUserMap.values());
     }
 
 
+    /**
+     * @param user
+     */
     public void addUser(User user) {
         if (!internalUserMap.containsKey(user.getUserName())) {
             internalUserMap.put(user.getUserName(), user);
         }
     }
 
+    /**
+     * @param user
+     * @return the rewards for this user
+     */
     public List<UserReward> getUserRewards(User user) {
         return user.getUserRewards();
     }
 
+    /**
+     * @param userName
+     * @param userReward
+     * add reward for the user
+     */
     public void addUserReward(String userName, UserReward userReward) {
         getUser(userName).addUserReward(userReward);
     }
 
+    /**
+     * @param userName
+     * @param visitedLocation
+     * add the new visited location for the user
+     */
     public void addVisitedLocation(String userName, VisitedLocation visitedLocation){
         getUser(userName).addToVisitedLocations(visitedLocation);
     }
 
 
+    /**
+     * @return the localisation of all users
+     */
     public List<UsersLocations> getAllCurrentLocations() {
         List<UsersLocations> usersLocationsList = new ArrayList<>();
 
@@ -82,6 +111,10 @@ public class UserService {
         return usersLocationsList;
     }
 
+    /**
+     * @param userName
+     * @param tripDeals List of Provider
+     */
     public void updateTripDeals(String userName, List<Provider> tripDeals) {
         User user = getUser(userName);
         user.setTripDeals(tripDeals);

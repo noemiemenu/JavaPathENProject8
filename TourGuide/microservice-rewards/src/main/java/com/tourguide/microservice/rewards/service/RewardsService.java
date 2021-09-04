@@ -22,6 +22,10 @@ import java.util.concurrent.Executors;
 @Service
 public class RewardsService {
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
+
+    /**
+     * @newFixedThreadPool fixe the number of Thread
+     */
     private ExecutorService executorService = Executors.newFixedThreadPool(64);
 
     // proximity in miles
@@ -51,10 +55,14 @@ public class RewardsService {
         executorService = Executors.newFixedThreadPool(64);
     }
 
+    /**
+     * @param user
+     * @return the rewards for this user
+     * calculateRewards use executorService
+     */
     public List<UserReward> calculateRewards(User user) {
         List<VisitedLocation> userLocations = user.getVisitedLocations();
         String userName = user.getUserName();
-
         List<UserReward> newUserRewards = new ArrayList<>();
 
         for (VisitedLocation visitedLocation : userLocations) {
@@ -80,6 +88,7 @@ public class RewardsService {
 
         return user.getUserRewards();
     }
+
     public ExecutorService getExecutorService() {
         return executorService;
     }

@@ -4,6 +4,7 @@ package com.tourguide.microservice.tourguide.response;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 
+
 public class AttractionResponse extends Attraction {
 
     private Location userLocation;

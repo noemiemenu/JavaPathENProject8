@@ -24,6 +24,9 @@ import java.util.concurrent.Executors;
 public class TourGuideService {
     private final GpsUtil gpsUtil;
     private final TripPricer tripPricer = new TripPricer();
+    /**
+     * @newFixedThreadPool fixe the number of Thread
+     */
     private final ExecutorService executorService = Executors.newFixedThreadPool(64);
 
     @Autowired
@@ -38,10 +41,19 @@ public class TourGuideService {
         this.gpsUtil = gpsUtil;
     }
 
+    public ExecutorService getExecutorService() {
+        return executorService;
+    }
+
     public VisitedLocation getUserLocation(User user) {
         return user.getLastVisitedLocation();
     }
 
+    /**
+     * @param user
+     * @return the list of provider for this user
+     *
+     */
     public List<Provider> getTripDeals(User user) {
         int cumulatedRewardPoints = user.getUserRewards().stream().mapToInt(UserReward::getRewardPoints).sum();
         List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, user.getUserId(), user.getUserPreferences().getNumberOfAdults(),
@@ -50,6 +62,11 @@ public class TourGuideService {
         return providers;
     }
 
+
+    /**
+     * @param user
+     * used executorService for track the user location
+     */
     public void trackUserLocation(User user) {
         CompletableFuture
                 .supplyAsync(() -> gpsUtil.getUserLocation(user.getUserId()), executorService)
@@ -57,13 +74,16 @@ public class TourGuideService {
                     usersAPI.createVisitedLocation(user.getUserName(), _visitedLocation);
                     user.addToVisitedLocations(_visitedLocation);
                     rewardsAPI.calculateRewards(user.getUserName());
-                });
+                })
+        ;
     }
 
-    public ExecutorService getExecutorService() {
-        return executorService;
-    }
 
+    /**
+     * @param visitedLocation
+     * @param user
+     * @return list of AttractionResponse
+     */
     public List<AttractionResponse> getNearByAttractions(VisitedLocation visitedLocation, User user) {
         List<AttractionResponse> nearbyAttractions = new ArrayList<>();
         List<DistanceOfAttraction> distances = new ArrayList<>();

@@ -23,17 +23,28 @@ public class TourGuideController {
 
 	@Autowired
     private UsersAPI usersAPI;
-	
+
+    /**
+     * @return string "Greetings from TourGuide!"
+     */
     @GetMapping("/")
     public String index() {
         return "Greetings from TourGuide!";
     }
 
+    /**
+     * @param userName
+     * @return the location of this user
+     */
     @GetMapping("/getLocation/{userName}")
     public VisitedLocation getLocation(@PathVariable String userName) {
     	return tourGuideService.getUserLocation(usersAPI.getUser(userName));
     }
 
+    /**
+     * @param userName
+     * @return the first 5 attraction of this user
+     */
     @GetMapping("/getNearbyAttractions/{userName}")
     public List<AttractionResponse> getNearbyAttractions(@PathVariable String userName) {
         User user = usersAPI.getUser(userName);
@@ -41,6 +52,11 @@ public class TourGuideController {
     	return tourGuideService.getNearByAttractions(visitedLocation, user);
     }
 
+    /**
+     * @param userName
+     * @param userPreferencesRequest
+     * @return a list of TripDeals based on user preferences
+     */
     @GetMapping("/getTripDeals")
     public List<Provider> getTripDeals(@RequestParam String userName, @Valid UserPreferencesRequest userPreferencesRequest) {
         User user = usersAPI.getUser(userName);
@@ -56,6 +72,10 @@ public class TourGuideController {
         return tourGuideService.getTripDeals(user);
     }
 
+    /**
+     * @param userName
+     * track the location of this user
+     */
     @GetMapping("/trackUserLocation/{userName}")
     public void trackUserLocation(@PathVariable String userName){
         User user = usersAPI.getUser(userName);
