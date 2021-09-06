@@ -10,8 +10,17 @@ import java.io.IOException;
 import static java.nio.charset.Charset.defaultCharset;
 import static org.springframework.util.StreamUtils.copyToString;
 
+/**
+ * The type Server api mocks.
+ */
 public class ServerAPIMocks {
 
+    /**
+     * Sets mock user api response.
+     *
+     * @param mockService the mock service
+     * @throws IOException the io exception
+     */
     public static void setupMockUserAPIResponse(WireMockServer mockService) throws IOException {
         mockService.stubFor(
                 WireMock.get(
@@ -107,6 +116,12 @@ public class ServerAPIMocks {
         );
     }
 
+    /**
+     * Sets mock user api reward responses.
+     *
+     * @param mockService the mock service
+     * @param nbUsers     the nb users
+     */
     public static void setupMockUserAPIRewardResponses(WireMockServer mockService, int nbUsers) {
 
         for (int i = 0; i < nbUsers; i++) {
@@ -124,6 +139,12 @@ public class ServerAPIMocks {
     }
 
 
+    /**
+     * Sets mock user api calculate responses.
+     *
+     * @param mockService the mock service
+     * @param nbUsers     the nb users
+     */
     public static void setupMockUserAPICalculateResponses(WireMockServer mockService, int nbUsers) {
 
         for (int i = 0; i < nbUsers; i++) {
@@ -139,6 +160,13 @@ public class ServerAPIMocks {
             );
         }
     }
+
+    /**
+     * Sets mock user api create visited location responses.
+     *
+     * @param mockService the mock service
+     * @param nbUsers     the nb users
+     */
     public static void setupMockUserAPICreateVisitedLocationResponses(WireMockServer mockService, int nbUsers) {
 
         for (int i = 0; i < nbUsers; i++) {

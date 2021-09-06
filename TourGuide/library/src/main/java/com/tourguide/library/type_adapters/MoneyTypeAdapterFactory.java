@@ -25,6 +25,11 @@ public class MoneyTypeAdapterFactory implements TypeAdapterFactory {
         this(Monetary.getDefaultAmountFactory());
     }
 
+    /**
+     * Instantiates a new Money type adapter factory.
+     *
+     * @param monetaryFactory the monetary factory
+     */
     public MoneyTypeAdapterFactory(final MonetaryAmountFactory<? extends MonetaryAmount> monetaryFactory) {
         this.monetaryFactory = monetaryFactory;
     }

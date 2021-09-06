@@ -1,14 +1,12 @@
 package com.tourguide.microservice.tourguide;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.tourguide.feign_clients.UsersAPI;
 import com.tourguide.library.helper.InternalTestHelper;
 import com.tourguide.library.helper.UsersHelper;
 import com.tourguide.library.user.User;
 import com.tourguide.microservice.tourguide.config.ServerAPIMocks;
 import com.tourguide.microservice.tourguide.config.WireMockUserAPIConfig;
 import com.tourguide.microservice.tourguide.service.TourGuideService;
-import gpsUtil.GpsUtil;
 import org.apache.commons.lang3.time.StopWatch;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,17 +17,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import rewardCentral.RewardCentral;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * The type Test performance.
+ */
 @SpringBootTest
 @ActiveProfiles("test")
 @EnableConfigurationProperties
@@ -51,6 +50,11 @@ public class TestPerformance {
     private static final int internalUserNumber = 100;
 
 
+    /**
+     * Sets up.
+     *
+     * @throws IOException the io exception
+     */
     @BeforeEach
     void setUp() throws IOException {
         ServerAPIMocks.setupMockUserAPICalculateResponses(mockService, internalUserNumber);
@@ -72,6 +76,9 @@ public class TestPerformance {
         });
     }
 
+    /**
+     * High volume track location.
+     */
     @Test
     public void highVolumeTrackLocation() {
         Locale.setDefault(new Locale("en", "US"));

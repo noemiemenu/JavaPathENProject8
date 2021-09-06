@@ -15,6 +15,9 @@ import tripPricer.Provider;
 
 import java.util.List;
 
+/**
+ * The type Tour guide controller.
+ */
 @RestController
 public class TourGuideController {
 
@@ -23,17 +26,34 @@ public class TourGuideController {
 
 	@Autowired
     private UsersAPI usersAPI;
-	
+
+    /**
+     * Index string.
+     *
+     * @return string "Greetings from TourGuide!"
+     */
     @GetMapping("/")
     public String index() {
         return "Greetings from TourGuide!";
     }
 
+    /**
+     * Gets location.
+     *
+     * @param userName String
+     * @return the location of this user
+     */
     @GetMapping("/getLocation/{userName}")
     public VisitedLocation getLocation(@PathVariable String userName) {
     	return tourGuideService.getUserLocation(usersAPI.getUser(userName));
     }
 
+    /**
+     * Gets nearby attractions.
+     *
+     * @param userName the user name
+     * @return the first 5 attraction of this user
+     */
     @GetMapping("/getNearbyAttractions/{userName}")
     public List<AttractionResponse> getNearbyAttractions(@PathVariable String userName) {
         User user = usersAPI.getUser(userName);
@@ -41,6 +61,13 @@ public class TourGuideController {
     	return tourGuideService.getNearByAttractions(visitedLocation, user);
     }
 
+    /**
+     * Gets trip deals.
+     *
+     * @param userName               the user name
+     * @param userPreferencesRequest the user preferences request
+     * @return a list of TripDeals based on user preferences
+     */
     @GetMapping("/getTripDeals")
     public List<Provider> getTripDeals(@RequestParam String userName, @Valid UserPreferencesRequest userPreferencesRequest) {
         User user = usersAPI.getUser(userName);
@@ -56,6 +83,11 @@ public class TourGuideController {
         return tourGuideService.getTripDeals(user);
     }
 
+    /**
+     * Track user location.
+     *
+     * @param userName track the location of this user
+     */
     @GetMapping("/trackUserLocation/{userName}")
     public void trackUserLocation(@PathVariable String userName){
         User user = usersAPI.getUser(userName);

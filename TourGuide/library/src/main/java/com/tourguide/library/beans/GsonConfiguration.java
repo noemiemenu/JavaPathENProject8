@@ -8,9 +8,17 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
 
+/**
+ * The type Gson configuration.
+ */
 @Configuration
 public class GsonConfiguration {
 
+    /**
+     * Type adapter registration gson builder customizer.
+     *
+     * @return the gson builder customizer
+     */
     @Bean
     public GsonBuilderCustomizer typeAdapterRegistration() {
         return builder -> {

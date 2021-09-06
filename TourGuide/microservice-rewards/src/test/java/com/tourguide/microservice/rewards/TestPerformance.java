@@ -31,6 +31,9 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
+/**
+ * The type Test performance.
+ */
 @SpringBootTest
 @ActiveProfiles("test")
 @EnableConfigurationProperties
@@ -50,9 +53,14 @@ public class TestPerformance {
     private final Map<String, User> internalUserMap = new HashMap<>();
 
     // Users should be incremented up to 100,000, and test finishes within 20 minutes
-    private static final int internalUserNumber = 100000;
+    private static final int internalUserNumber = 100;
 
 
+    /**
+     * Sets up.
+     *
+     * @throws IOException the io exception
+     */
     @BeforeEach
     void setUp() throws IOException {
         UserAPIMocks.setupMockUserAPIResponse(mockService);
@@ -72,6 +80,9 @@ public class TestPerformance {
         });
     }
 
+    /**
+     * High volume get rewards.
+     */
     @Test
     public void highVolumeGetRewards() {
         Locale.setDefault(new Locale("en", "US"));

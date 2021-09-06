@@ -20,10 +20,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * The type Tour guide service.
+ */
 @Service
 public class TourGuideService {
     private final GpsUtil gpsUtil;
     private final TripPricer tripPricer = new TripPricer();
+    /**
+     * @newFixedThreadPool fixe the number of Thread
+     */
     private final ExecutorService executorService = Executors.newFixedThreadPool(64);
 
     @Autowired
@@ -32,16 +38,45 @@ public class TourGuideService {
     @Autowired
     private UsersAPI usersAPI;
 
+    /**
+     * The Distance of attraction.
+     */
     public DistanceOfAttraction distanceOfAttraction;
 
+    /**
+     * Instantiates a new Tour guide service.
+     *
+     * @param gpsUtil the gps util
+     */
     public TourGuideService(GpsUtil gpsUtil) {
         this.gpsUtil = gpsUtil;
     }
 
+    /**
+     * Gets executor service.
+     *
+     * @return the executor service
+     */
+    public ExecutorService getExecutorService() {
+        return executorService;
+    }
+
+    /**
+     * Gets user location.
+     *
+     * @param user the user
+     * @return the user location
+     */
     public VisitedLocation getUserLocation(User user) {
         return user.getLastVisitedLocation();
     }
 
+    /**
+     * Gets trip deals.
+     *
+     * @param user the user
+     * @return the list of provider for this user
+     */
     public List<Provider> getTripDeals(User user) {
         int cumulatedRewardPoints = user.getUserRewards().stream().mapToInt(UserReward::getRewardPoints).sum();
         List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, user.getUserId(), user.getUserPreferences().getNumberOfAdults(),
@@ -50,6 +85,12 @@ public class TourGuideService {
         return providers;
     }
 
+
+    /**
+     * Track user location.
+     *
+     * @param user used executorService for track the user location
+     */
     public void trackUserLocation(User user) {
         CompletableFuture
                 .supplyAsync(() -> gpsUtil.getUserLocation(user.getUserId()), executorService)
@@ -57,13 +98,18 @@ public class TourGuideService {
                     usersAPI.createVisitedLocation(user.getUserName(), _visitedLocation);
                     user.addToVisitedLocations(_visitedLocation);
                     rewardsAPI.calculateRewards(user.getUserName());
-                });
+                })
+        ;
     }
 
-    public ExecutorService getExecutorService() {
-        return executorService;
-    }
 
+    /**
+     * Gets near by attractions.
+     *
+     * @param visitedLocation the visited location
+     * @param user            the user
+     * @return list of AttractionResponse
+     */
     public List<AttractionResponse> getNearByAttractions(VisitedLocation visitedLocation, User user) {
         List<AttractionResponse> nearbyAttractions = new ArrayList<>();
         List<DistanceOfAttraction> distances = new ArrayList<>();
