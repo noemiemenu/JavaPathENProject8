@@ -44,12 +44,18 @@ test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
     finalizedBy generateSiteHtml
+    finalizedBy javadoc
 }
 
 site {
     outputDir.set(file("$rootDir/microservice-rewards/build/reports/gradle-site"))
     websiteUrl.set("https://github.com/noemiemenu/JavaPathENProject8")
     vcsUrl.set("https://github.com/noemiemenu/JavaPathENProject8")
+}
+
+javadoc {
+    dependsOn test
+    destinationDir = file("$rootDir/build/reports/javadoc")
 }
 
 generateSiteHtml {

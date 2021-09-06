@@ -20,6 +20,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * The type Tour guide service.
+ */
 @Service
 public class TourGuideService {
     private final GpsUtil gpsUtil;
@@ -35,24 +38,44 @@ public class TourGuideService {
     @Autowired
     private UsersAPI usersAPI;
 
+    /**
+     * The Distance of attraction.
+     */
     public DistanceOfAttraction distanceOfAttraction;
 
+    /**
+     * Instantiates a new Tour guide service.
+     *
+     * @param gpsUtil the gps util
+     */
     public TourGuideService(GpsUtil gpsUtil) {
         this.gpsUtil = gpsUtil;
     }
 
+    /**
+     * Gets executor service.
+     *
+     * @return the executor service
+     */
     public ExecutorService getExecutorService() {
         return executorService;
     }
 
+    /**
+     * Gets user location.
+     *
+     * @param user the user
+     * @return the user location
+     */
     public VisitedLocation getUserLocation(User user) {
         return user.getLastVisitedLocation();
     }
 
     /**
-     * @param user
-     * @return the list of provider for this user
+     * Gets trip deals.
      *
+     * @param user the user
+     * @return the list of provider for this user
      */
     public List<Provider> getTripDeals(User user) {
         int cumulatedRewardPoints = user.getUserRewards().stream().mapToInt(UserReward::getRewardPoints).sum();
@@ -64,8 +87,9 @@ public class TourGuideService {
 
 
     /**
-     * @param user
-     * used executorService for track the user location
+     * Track user location.
+     *
+     * @param user used executorService for track the user location
      */
     public void trackUserLocation(User user) {
         CompletableFuture
@@ -80,8 +104,10 @@ public class TourGuideService {
 
 
     /**
-     * @param visitedLocation
-     * @param user
+     * Gets near by attractions.
+     *
+     * @param visitedLocation the visited location
+     * @param user            the user
      * @return list of AttractionResponse
      */
     public List<AttractionResponse> getNearByAttractions(VisitedLocation visitedLocation, User user) {

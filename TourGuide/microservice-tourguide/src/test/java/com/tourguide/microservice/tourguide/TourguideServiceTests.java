@@ -30,6 +30,9 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * The type Tourguide service tests.
+ */
 @SpringBootTest
 @ActiveProfiles("test")
 @EnableConfigurationProperties
@@ -47,13 +50,20 @@ class TourguideServiceTests {
     private UsersAPI usersAPI;
 
 
+    /**
+     * Sets up.
+     *
+     * @throws IOException the io exception
+     */
     @BeforeEach
     void setUp() throws IOException {
         ServerAPIMocks.setupMockUserAPIResponse(mockService);
     }
 
 
-
+    /**
+     * Gets user location test.
+     */
     @Test
     void getUserLocationTest() {
         User user = usersAPI.getUser("internalUser60");
@@ -64,6 +74,9 @@ class TourguideServiceTests {
         assertNotNull(visitedLocation.location);
     }
 
+    /**
+     * Get trip deals test.
+     */
     @Test
     void getTripDealsTest(){
         User user = usersAPI.getUser("internalUser60");
@@ -76,6 +89,9 @@ class TourguideServiceTests {
         assertNotNull(user.getTripDeals());
     }
 
+    /**
+     * Get near by attractions test.
+     */
     @Test
     void getNearByAttractionsTest(){
         User user = usersAPI.getUser("internalUser60");
@@ -88,6 +104,9 @@ class TourguideServiceTests {
         assertNotNull(user.getVisitedLocations());
     }
 
+    /**
+     * Track user location test.
+     */
     @Test
     void trackUserLocationTest(){
         Locale.setDefault(new Locale("en", "US"));

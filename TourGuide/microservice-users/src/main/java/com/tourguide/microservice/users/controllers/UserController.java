@@ -10,16 +10,26 @@ import tripPricer.Provider;
 
 import java.util.List;
 
+/**
+ * The type User controller.
+ */
 @RestController
 public class UserController {
 
     private final UserService userService;
 
+    /**
+     * Instantiates a new User controller.
+     *
+     * @param userService the user service
+     */
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     /**
+     * Get users list.
+     *
      * @return list of all users
      */
     @GetMapping("/users")
@@ -37,7 +47,9 @@ public class UserController {
     }
 
     /**
-     * @param userName
+     * Gets user rewards.
+     *
+     * @param userName the user name
      * @return list of rewards of this user
      */
     @GetMapping("/rewards/{userName}")
@@ -46,9 +58,10 @@ public class UserController {
     }
 
     /**
-     * @param userName
-     * @param userReward
-     * add the reward for this user
+     * Create user reward.
+     *
+     * @param userName   the user name
+     * @param userReward add the reward for this user
      */
     @PostMapping("/rewards/{userName}")
     public void createUserReward(@PathVariable String userName, @RequestBody UserReward userReward){
@@ -56,9 +69,10 @@ public class UserController {
     }
 
     /**
-     * @param userName
-     * @param tripDeals
-     * Update trip deals for this user
+     * Update trip deals.
+     *
+     * @param userName  the user name
+     * @param tripDeals Update trip deals for this user
      */
     @PostMapping("/tripDeals/{userName}")
     public void updateTripDeals(@PathVariable String userName, @RequestBody List<Provider> tripDeals){
@@ -66,6 +80,8 @@ public class UserController {
     }
 
     /**
+     * Get all current locations list.
+     *
      * @return all current locations
      */
     @GetMapping("/getAllCurrentLocations")
@@ -74,9 +90,10 @@ public class UserController {
     }
 
     /**
-     * @param userName
-     * @param visitedLocation
-     * Add the visited location for this user
+     * Create visited location.
+     *
+     * @param userName        the user name
+     * @param visitedLocation Add the visited location for this user
      */
     @PostMapping("/addVisitedLocation/{userName}")
     public void createVisitedLocation(@PathVariable String userName, @RequestBody VisitedLocation visitedLocation){

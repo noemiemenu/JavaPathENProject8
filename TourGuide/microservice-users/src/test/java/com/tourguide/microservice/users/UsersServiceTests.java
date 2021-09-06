@@ -19,6 +19,9 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The type Users service tests.
+ */
 @SpringBootTest
 class UsersServiceTests {
 
@@ -27,7 +30,9 @@ class UsersServiceTests {
     private UserService userService;
 
 
-
+    /**
+     * Gets user test.
+     */
     @Test
     void getUserTest() {
         User user1 = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
@@ -45,6 +50,9 @@ class UsersServiceTests {
         assertNotNull(user1.getUserId());
     }
 
+    /**
+     * Get all users test.
+     */
     @Test
     void getAllUsersTest(){
         List<User> users = userService.getAllUsers();
@@ -53,6 +61,9 @@ class UsersServiceTests {
         assertNotEquals(0, users.size());
     }
 
+    /**
+     * Add user rewards.
+     */
     @Test
     void addUserRewards(){
         User user = userService.getAllUsers().get(0);
@@ -66,6 +77,9 @@ class UsersServiceTests {
         assertNotEquals(0, user.getUserRewards().size());
     }
 
+    /**
+     * Get user rewards test.
+     */
     @Test
     void getUserRewardsTest(){
         User user = userService.getAllUsers().get(0);
@@ -81,6 +95,9 @@ class UsersServiceTests {
         assertNotNull(userRewards.get(0).attraction.attractionId);
     }
 
+    /**
+     * Get all current locations test.
+     */
     @Test
     void getAllCurrentLocationsTest(){
         List<UsersLocations> usersLocations = userService.getAllCurrentLocations();
@@ -89,6 +106,9 @@ class UsersServiceTests {
         assertNotNull(usersLocations.get(0).getUserId());
     }
 
+    /**
+     * Update trip deals test.
+     */
     @Test
     void updateTripDealsTest(){
         User user = userService.getAllUsers().get(0);
@@ -106,6 +126,9 @@ class UsersServiceTests {
 
     }
 
+    /**
+     * Create visited location test.
+     */
     @Test
     void createVisitedLocationTest(){
         //given

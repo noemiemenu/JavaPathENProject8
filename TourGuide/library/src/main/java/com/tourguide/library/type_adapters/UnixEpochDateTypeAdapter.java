@@ -7,13 +7,24 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Date;
 
+/**
+ * The type Unix epoch date type adapter.
+ */
 public final class UnixEpochDateTypeAdapter extends TypeAdapter<Date> {
 
     private static final TypeAdapter<Date> unixEpochDateTypeAdapter = new UnixEpochDateTypeAdapter();
 
+    /**
+     * Instantiates a new Unix epoch date type adapter.
+     */
     public UnixEpochDateTypeAdapter() {
     }
 
+    /**
+     * Gets unix epoch date type adapter.
+     *
+     * @return the unix epoch date type adapter
+     */
     static TypeAdapter<Date> getUnixEpochDateTypeAdapter() {
         return unixEpochDateTypeAdapter;
     }

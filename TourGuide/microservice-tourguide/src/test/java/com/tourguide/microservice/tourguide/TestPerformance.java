@@ -26,6 +26,9 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * The type Test performance.
+ */
 @SpringBootTest
 @ActiveProfiles("test")
 @EnableConfigurationProperties
@@ -47,6 +50,11 @@ public class TestPerformance {
     private static final int internalUserNumber = 100;
 
 
+    /**
+     * Sets up.
+     *
+     * @throws IOException the io exception
+     */
     @BeforeEach
     void setUp() throws IOException {
         ServerAPIMocks.setupMockUserAPICalculateResponses(mockService, internalUserNumber);
@@ -68,6 +76,9 @@ public class TestPerformance {
         });
     }
 
+    /**
+     * High volume track location.
+     */
     @Test
     public void highVolumeTrackLocation() {
         Locale.setDefault(new Locale("en", "US"));

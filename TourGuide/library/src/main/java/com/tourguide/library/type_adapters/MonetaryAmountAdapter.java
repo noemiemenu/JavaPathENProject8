@@ -19,6 +19,11 @@ public final class MonetaryAmountAdapter extends TypeAdapter<MonetaryAmount> {
 
     private MonetaryAmountFactory<? extends MonetaryAmount> monetaryFactory;
 
+    /**
+     * Instantiates a new Monetary amount adapter.
+     *
+     * @param monetaryFactory the monetary factory
+     */
     MonetaryAmountAdapter(final MonetaryAmountFactory<? extends MonetaryAmount> monetaryFactory) {
         this.monetaryFactory = monetaryFactory;
     }

@@ -12,8 +12,16 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+/**
+ * The type Users helper.
+ */
 public class UsersHelper {
 
+    /**
+     * Generate user location history.
+     *
+     * @param user the user
+     */
     public static void generateUserLocationHistory(User user) {
         IntStream.range(0, 3).forEach(i -> {
             user.addToVisitedLocations(new VisitedLocation(user.getUserId(), new Location(generateRandomLatitude(), generateRandomLongitude()), getRandomTime()));

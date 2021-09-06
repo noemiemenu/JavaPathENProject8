@@ -15,13 +15,22 @@ import tripPricer.Provider;
 import java.util.*;
 import java.util.stream.IntStream;
 
+/**
+ * The type User service.
+ */
 @Service
 public class UserService {
     private Logger logger = LoggerFactory.getLogger(UserService.class);
+    /**
+     * The Test mode.
+     */
     boolean testMode = true;
     private final Map<String, User> internalUserMap = new HashMap<>();
 
 
+    /**
+     * Instantiates a new User service.
+     */
     public UserService(){
         if (testMode) {
             logger.info("TestMode enabled");
@@ -46,7 +55,9 @@ public class UserService {
     }
 
     /**
-     * @param userName
+     * Gets user.
+     *
+     * @param userName the user name
      * @return the user
      */
     public User getUser(String userName) {
@@ -54,6 +65,8 @@ public class UserService {
     }
 
     /**
+     * Gets all users.
+     *
      * @return the list of all users
      */
     public List<User> getAllUsers() {
@@ -62,7 +75,9 @@ public class UserService {
 
 
     /**
-     * @param user
+     * Add user.
+     *
+     * @param user the user
      */
     public void addUser(User user) {
         if (!internalUserMap.containsKey(user.getUserName())) {
@@ -71,7 +86,9 @@ public class UserService {
     }
 
     /**
-     * @param user
+     * Gets user rewards.
+     *
+     * @param user the user
      * @return the rewards for this user
      */
     public List<UserReward> getUserRewards(User user) {
@@ -79,18 +96,20 @@ public class UserService {
     }
 
     /**
-     * @param userName
-     * @param userReward
-     * add reward for the user
+     * Add user reward.
+     *
+     * @param userName   the user name
+     * @param userReward add reward for the user
      */
     public void addUserReward(String userName, UserReward userReward) {
         getUser(userName).addUserReward(userReward);
     }
 
     /**
-     * @param userName
-     * @param visitedLocation
-     * add the new visited location for the user
+     * Add visited location.
+     *
+     * @param userName        the user name
+     * @param visitedLocation add the new visited location for the user
      */
     public void addVisitedLocation(String userName, VisitedLocation visitedLocation){
         getUser(userName).addToVisitedLocations(visitedLocation);
@@ -98,6 +117,8 @@ public class UserService {
 
 
     /**
+     * Gets all current locations.
+     *
      * @return the localisation of all users
      */
     public List<UsersLocations> getAllCurrentLocations() {
@@ -112,7 +133,9 @@ public class UserService {
     }
 
     /**
-     * @param userName
+     * Update trip deals.
+     *
+     * @param userName  the user name
      * @param tripDeals List of Provider
      */
     public void updateTripDeals(String userName, List<Provider> tripDeals) {

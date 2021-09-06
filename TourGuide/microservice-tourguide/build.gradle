@@ -53,6 +53,11 @@ site {
     vcsUrl.set("https://github.com/noemiemenu/JavaPathENProject8")
 }
 
+javadoc {
+    dependsOn test
+    destinationDir = file("$rootDir/build/reports/javadoc")
+}
+
 generateSiteHtml {
     dependsOn test
 }

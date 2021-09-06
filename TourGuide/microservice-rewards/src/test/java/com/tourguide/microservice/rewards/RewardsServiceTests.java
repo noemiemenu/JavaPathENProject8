@@ -27,6 +27,9 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+/**
+ * The type Rewards service tests.
+ */
 @SpringBootTest
 @ActiveProfiles("test")
 @EnableConfigurationProperties
@@ -46,11 +49,21 @@ public class RewardsServiceTests {
     @Autowired
     private GpsUtil gpsUtil;
 
+    /**
+     * Sets up.
+     *
+     * @throws IOException the io exception
+     */
     @BeforeEach
     void setUp() throws IOException {
         UserAPIMocks.setupMockUserAPIResponse(mockService);
     }
 
+    /**
+     * Calculate rewards test.
+     *
+     * @throws InterruptedException the interrupted exception
+     */
     @Test
     public void calculateRewardsTest() throws InterruptedException {
         Locale.setDefault(new Locale("en", "US"));
@@ -72,6 +85,9 @@ public class RewardsServiceTests {
         assertNotNull(userRewards.get(0).attraction.attractionId);
     }
 
+    /**
+     * Get reward points test.
+     */
     @Test
     public void getRewardPointsTest(){
         int rewardPoints = rewardsService.getRewardPoints(
@@ -82,6 +98,9 @@ public class RewardsServiceTests {
         assertNotEquals(0, rewardPoints);
     }
 
+    /**
+     * Is within attraction proximity.
+     */
     @Test
     public void isWithinAttractionProximity() {
         Locale.setDefault(new Locale("en", "US"));

@@ -19,6 +19,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
+/**
+ * The type Rewards service.
+ */
 @Service
 public class RewardsService {
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
@@ -37,28 +40,49 @@ public class RewardsService {
     @Autowired
     private UsersAPI usersAPI;
 
+    /**
+     * Instantiates a new Rewards service.
+     *
+     * @param gpsUtil       the gps util
+     * @param rewardCentral the reward central
+     */
     public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
         this.rewardsCentral = rewardCentral;
         attractions.addAll(gpsUtil.getAttractions());
     }
 
+    /**
+     * Sets proximity buffer.
+     *
+     * @param proximityBuffer the proximity buffer
+     */
     public void setProximityBuffer(int proximityBuffer) {
         this.proximityBuffer = proximityBuffer;
     }
 
+    /**
+     * Calculate rewards list.
+     *
+     * @param userName the user name
+     * @return the list
+     */
     public List<UserReward> calculateRewards(String userName) {
         User user = usersAPI.getUser(userName);
         return calculateRewards(user);
     }
 
+    /**
+     * Reset thread pool.
+     */
     public void resetThreadPool() {
         executorService = Executors.newFixedThreadPool(64);
     }
 
     /**
-     * @param user
-     * @return the rewards for this user
-     * calculateRewards use executorService
+     * Calculate rewards list.
+     *
+     * @param user the user
+     * @return the rewards for this user calculateRewards use executorService
      */
     public List<UserReward> calculateRewards(User user) {
         List<VisitedLocation> userLocations = user.getVisitedLocations();
@@ -89,10 +113,22 @@ public class RewardsService {
         return user.getUserRewards();
     }
 
+    /**
+     * Gets executor service.
+     *
+     * @return the executor service
+     */
     public ExecutorService getExecutorService() {
         return executorService;
     }
 
+    /**
+     * Is within attraction proximity boolean.
+     *
+     * @param attraction the attraction
+     * @param location   the location
+     * @return the boolean
+     */
     public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
         int attractionProximityRange = 200;
         return !(getDistance(attraction, location) > attractionProximityRange);
@@ -102,10 +138,24 @@ public class RewardsService {
         return !(getDistance(attraction, visitedLocation.location) > proximityBuffer);
     }
 
+    /**
+     * Gets reward points.
+     *
+     * @param attraction the attraction
+     * @param user       the user
+     * @return the reward points
+     */
     public int getRewardPoints(Attraction attraction, User user) {
         return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());
     }
 
+    /**
+     * Gets distance.
+     *
+     * @param loc1 the loc 1
+     * @param loc2 the loc 2
+     * @return the distance
+     */
     public double getDistance(Location loc1, Location loc2) {
         double latitude1 = Math.toRadians(loc1.latitude);
         double longitude1 = Math.toRadians(loc1.longitude);

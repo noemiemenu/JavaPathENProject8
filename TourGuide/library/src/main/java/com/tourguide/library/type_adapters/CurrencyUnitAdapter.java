@@ -11,6 +11,9 @@ import javax.money.Monetary;
 import javax.money.UnknownCurrencyException;
 import java.io.IOException;
 
+/**
+ * The type Currency unit adapter.
+ */
 public final class CurrencyUnitAdapter extends TypeAdapter<CurrencyUnit> {
 
     @Override

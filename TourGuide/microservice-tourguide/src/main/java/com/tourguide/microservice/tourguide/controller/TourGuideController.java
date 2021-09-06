@@ -15,6 +15,9 @@ import tripPricer.Provider;
 
 import java.util.List;
 
+/**
+ * The type Tour guide controller.
+ */
 @RestController
 public class TourGuideController {
 
@@ -25,6 +28,8 @@ public class TourGuideController {
     private UsersAPI usersAPI;
 
     /**
+     * Index string.
+     *
      * @return string "Greetings from TourGuide!"
      */
     @GetMapping("/")
@@ -33,7 +38,9 @@ public class TourGuideController {
     }
 
     /**
-     * @param userName
+     * Gets location.
+     *
+     * @param userName String
      * @return the location of this user
      */
     @GetMapping("/getLocation/{userName}")
@@ -42,7 +49,9 @@ public class TourGuideController {
     }
 
     /**
-     * @param userName
+     * Gets nearby attractions.
+     *
+     * @param userName the user name
      * @return the first 5 attraction of this user
      */
     @GetMapping("/getNearbyAttractions/{userName}")
@@ -53,8 +62,10 @@ public class TourGuideController {
     }
 
     /**
-     * @param userName
-     * @param userPreferencesRequest
+     * Gets trip deals.
+     *
+     * @param userName               the user name
+     * @param userPreferencesRequest the user preferences request
      * @return a list of TripDeals based on user preferences
      */
     @GetMapping("/getTripDeals")
@@ -73,8 +84,9 @@ public class TourGuideController {
     }
 
     /**
-     * @param userName
-     * track the location of this user
+     * Track user location.
+     *
+     * @param userName track the location of this user
      */
     @GetMapping("/trackUserLocation/{userName}")
     public void trackUserLocation(@PathVariable String userName){
