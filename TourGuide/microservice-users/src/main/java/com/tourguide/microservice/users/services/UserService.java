@@ -2,8 +2,10 @@ package com.tourguide.microservice.users.services;
 
 import com.tourguide.library.helper.InternalTestHelper;
 import com.tourguide.library.helper.UsersHelper;
+import com.tourguide.library.model.UserPreferencesRequest;
 import com.tourguide.library.model.UsersLocations;
 import com.tourguide.library.user.User;
+import com.tourguide.library.user.UserPreferences;
 import com.tourguide.library.user.UserReward;
 import gpsUtil.location.VisitedLocation;
 import org.slf4j.Logger;
@@ -57,7 +59,7 @@ public class UserService {
     /**
      * Gets user.
      *
-     * @param userName the user name
+     * @param userName the username
      * @return the user
      */
     public User getUser(String userName) {
@@ -98,7 +100,7 @@ public class UserService {
     /**
      * Add user reward.
      *
-     * @param userName   the user name
+     * @param userName   the username
      * @param userReward add reward for the user
      */
     public void addUserReward(String userName, UserReward userReward) {
@@ -108,7 +110,7 @@ public class UserService {
     /**
      * Add visited location.
      *
-     * @param userName        the user name
+     * @param userName        the username
      * @param visitedLocation add the new visited location for the user
      */
     public void addVisitedLocation(String userName, VisitedLocation visitedLocation){
@@ -135,11 +137,21 @@ public class UserService {
     /**
      * Update trip deals.
      *
-     * @param userName  the user name
+     * @param userName  the username
      * @param tripDeals List of Provider
      */
     public void updateTripDeals(String userName, List<Provider> tripDeals) {
         User user = getUser(userName);
         user.setTripDeals(tripDeals);
     }
+
+    /**
+     * @param userName
+     * @param userPreferences
+     */
+    public void UpdateUserPreferences(String userName, UserPreferences userPreferences){
+        User user = getUser(userName);
+        user.setUserPreferences(userPreferences);
+    }
+
 }

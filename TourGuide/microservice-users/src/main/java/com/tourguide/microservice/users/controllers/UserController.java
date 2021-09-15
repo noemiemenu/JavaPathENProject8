@@ -1,7 +1,9 @@
 package com.tourguide.microservice.users.controllers;
 
+import com.tourguide.library.model.UserPreferencesRequest;
 import com.tourguide.library.model.UsersLocations;
 import com.tourguide.library.user.User;
+import com.tourguide.library.user.UserPreferences;
 import com.tourguide.library.user.UserReward;
 import com.tourguide.microservice.users.services.UserService;
 import gpsUtil.location.VisitedLocation;
@@ -49,7 +51,7 @@ public class UserController {
     /**
      * Gets user rewards.
      *
-     * @param userName the user name
+     * @param userName the username
      * @return list of rewards of this user
      */
     @GetMapping("/rewards/{userName}")
@@ -60,7 +62,7 @@ public class UserController {
     /**
      * Create user reward.
      *
-     * @param userName   the user name
+     * @param userName   the username
      * @param userReward add the reward for this user
      */
     @PostMapping("/rewards/{userName}")
@@ -71,7 +73,7 @@ public class UserController {
     /**
      * Update trip deals.
      *
-     * @param userName  the user name
+     * @param userName  the username
      * @param tripDeals Update trip deals for this user
      */
     @PostMapping("/tripDeals/{userName}")
@@ -92,11 +94,16 @@ public class UserController {
     /**
      * Create visited location.
      *
-     * @param userName        the user name
+     * @param userName        the username
      * @param visitedLocation Add the visited location for this user
      */
     @PostMapping("/addVisitedLocation/{userName}")
     public void createVisitedLocation(@PathVariable String userName, @RequestBody VisitedLocation visitedLocation){
         userService.addVisitedLocation(userName, visitedLocation);
+    }
+
+    @PostMapping("/userPreferences/{userName}")
+    public void userPreferences(@PathVariable String userName, @RequestBody UserPreferences userPreferences){
+        userService.UpdateUserPreferences(userName, userPreferences);
     }
 }
