@@ -2,6 +2,7 @@ package com.tourguide.microservice.users;
 
 import com.tourguide.library.model.UsersLocations;
 import com.tourguide.library.user.User;
+import com.tourguide.library.user.UserPreferences;
 import com.tourguide.library.user.UserReward;
 import com.tourguide.microservice.users.services.UserService;
 import gpsUtil.location.Attraction;
@@ -140,6 +141,18 @@ class UsersServiceTests {
         userService.addVisitedLocation(user.getUserName(),visitedLocation);
         //then
         assertEquals(visitedLocationNumber + 1, userService.getAllUsers().get(0).getVisitedLocations().size());
+    }
+
+    @Test
+    void updateUserPreferencesTest(){
+        User user = userService.getAllUsers().get(0);
+        UserPreferences userPreferences = new UserPreferences();
+        userPreferences.setNumberOfAdults(3);
+        userPreferences.setNumberOfChildren(2);
+        userService.UpdateUserPreferences(user.getUserName(), userPreferences);
+
+        assertEquals(user.getUserPreferences().getNumberOfAdults(), 3);
+        assertEquals(user.getUserPreferences().getNumberOfChildren(), 2);
     }
 
 }
